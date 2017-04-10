@@ -49,6 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Client.cs" />
+    <Compile Include="Controllers\ConcreteCommands\CloseCommand.cs" />
+    <Compile Include="Controllers\ConcreteCommands\JoinCommand.cs" />
+    <Compile Include="Controllers\ConcreteCommands\ListCommand.cs" />
+    <Compile Include="Controllers\ConcreteCommands\PlayCommand.cs" />
+    <Compile Include="Controllers\ConcreteCommands\SolveMazeCommand.cs" />
     <Compile Include="Controllers\ConcreteCommands\StartGameCommand.cs" />
     <Compile Include="Controllers\Handlers\ClientHandler.cs" />
     <Compile Include="Controllers\Invokers\MainController.cs" />

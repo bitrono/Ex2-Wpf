@@ -9,12 +9,19 @@ using GameServer.Models;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
-    public class StartGameCommand: ICommand
+    /// <summary>
+    /// The class responsible for the command of starting a multiplayer game.
+    /// </summary>
+    public class StartGameCommand : ICommand
     {
         private IModel model;
         private Task task;
         private bool playerTwoConnected;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="model">Provides the logic of the game</param>
         public StartGameCommand(IModel model)
         {
             this.model = model;
@@ -23,16 +30,17 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, TcpClient client = null)
         {
-           // task = new Task(() =>
-           // {
-               // while (!playerTwoConnected)
-               // {
-                    
-               // }
-           // });
+            // task = new Task(() =>
+            // {
+            // while (!playerTwoConnected)
+            // {
+
+            // }
+            // });
 
             //task.Start();
 
+            //TODO note that the message appears at the client after the "Enter command", make it go before
             return "Waiting for second player to join...";
         }
     }

@@ -10,9 +10,9 @@ using GameServer.Models;
 namespace GameServer.Controllers.ConcreteCommands
 {
     /// <summary>
-    /// The class responsible for the command of generating a maze.
+    /// The class responsible for the command of solving a maze.
     /// </summary>
-    public class GenerateMazeCommand : ICommand
+    public class SolveMazeCommand : ICommand
     {
         private IModel model;
 
@@ -20,19 +20,15 @@ namespace GameServer.Controllers.ConcreteCommands
         /// Constructor.
         /// </summary>
         /// <param name="model">Provides the logic of the game</param>
-        public GenerateMazeCommand(IModel model)
+        public SolveMazeCommand(IModel model)
         {
             this.model = model;
-        }
-        public string Execute(string[] args, TcpClient client)
-        {
-            string name = args[0];
-            int rows = int.Parse(args[1]);
-            int cols = int.Parse(args[2]);
-           // Maze maze = model.GenerateMaze(name, rows, cols);
-           //return maze.ToJSON();
+            }
 
-            return "maze returned...";
+        public string Execute(string[] args, TcpClient client = null)
+        {
+           
+            return "Solved maze...";
         }
     }
 }
