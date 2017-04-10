@@ -78,28 +78,7 @@ namespace GameClient
     }
 
 
-    /*
-     * while (Continue)
-                {
-                    if (!IsRead)
-                    {
-                        try
-                        {
-                            // Get result from server
-                            Command = reader.ReadLine();
-                            Console.WriteLine("Result = {0}", Command);
-                            this.IsRead = true;
-                            Thread.Sleep(1000);
-                        }
-
-                        catch (Exception e)
-                        {
-                            return;
-                        }
-                    }
-                }
-     */
-
+   
     /*
      * //TODO might still not work because the readline might be faster than the Program.cs
                 while (Continue == false && IsRead == false)
