@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Controllers.Handlers
+namespace GameServer.Views.Handlers
 {
     /// <summary>
     /// The interface to handle a client.

@@ -5,9 +5,10 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Controllers.Handlers;
 using GameServer.Controllers.Invokers;
 
-namespace GameServer.Controllers.Handlers
+namespace GameServer.Views.Handlers
 {
     public class ClientHandler : IClientHandler
     {

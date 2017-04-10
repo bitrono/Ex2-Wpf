@@ -14,7 +14,7 @@ namespace GameServer.Controllers.Invokers
     /// The main controller of the game.
     /// Sets the commnds and executes them.
     /// </summary>
-    public class MainController: IController
+    public class MainController : IController
     {
         private Dictionary<string, ICommand> commands;
         private IList<Client> clients;
@@ -28,11 +28,15 @@ namespace GameServer.Controllers.Invokers
             model = new Model();
             clients = new List<Client>();
             commands = new Dictionary<string, ICommand>();
-            
+
             //Adding commands.
             commands.Add("generate", new GenerateMazeCommand(model));
+            commands.Add("solve", new SolveMazeCommand(model));
             commands.Add("start", new StartGameCommand(model));
-            // TODO add more commands...
+            commands.Add("list", new ListCommand(model));
+            commands.Add("join", new JoinCommand(model));
+            commands.Add("play", new PlayCommand(model));
+            commands.Add("close", new CloseCommand(model));
         }
 
         /// <summary>
@@ -55,13 +59,12 @@ namespace GameServer.Controllers.Invokers
             {
                 return "Command not found";
             }
-            
+
             //Executing command.
             string[] args = arr.Skip(1).ToArray();
             ICommand command = commands[commandKey];
 
             return command.Execute(args, client);
         }
-
     }
 }

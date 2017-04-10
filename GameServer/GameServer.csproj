@@ -55,10 +55,10 @@
     <Compile Include="Controllers\ConcreteCommands\PlayCommand.cs" />
     <Compile Include="Controllers\ConcreteCommands\SolveMazeCommand.cs" />
     <Compile Include="Controllers\ConcreteCommands\StartGameCommand.cs" />
-    <Compile Include="Controllers\Handlers\ClientHandler.cs" />
+    <Compile Include="Views\Handlers\ClientHandler.cs" />
     <Compile Include="Controllers\Invokers\MainController.cs" />
     <Compile Include="Controllers\ConcreteCommands\GenerateMazeCommand.cs" />
-    <Compile Include="Controllers\Handlers\IClientHandler.cs" />
+    <Compile Include="Views\Handlers\IClientHandler.cs" />
     <Compile Include="Controllers\AbstractCommands\ICommand.cs" />
     <Compile Include="Controllers\Invokers\IController.cs" />
     <Compile Include="Controllers\Servers\IServer.cs" />
@@ -72,9 +72,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
