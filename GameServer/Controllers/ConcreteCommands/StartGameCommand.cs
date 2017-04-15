@@ -5,7 +5,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
+using GameServer.Models.Players;
 using GameServer.Models;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -16,7 +18,6 @@ namespace GameServer.Controllers.ConcreteCommands
     {
         private IModel model;
         private Task task;
-        private bool playerTwoConnected;
 
         /// <summary>
         /// Constructor.
@@ -25,23 +26,25 @@ namespace GameServer.Controllers.ConcreteCommands
         public StartGameCommand(IModel model)
         {
             this.model = model;
-            this.playerTwoConnected = false;
         }
 
-        public string Execute(string[] args, TcpClient client = null)
+        public string Execute(string[] args, ConnectedClient client = null)
         {
-            // task = new Task(() =>
-            // {
-            // while (!playerTwoConnected)
-            // {
 
-            // }
-            // });
+            client.IsMultiplayer = true;
 
-            //task.Start();
+            Player playerOne = this.model.Storage.Lobby.InsertNewPlayer(client);
+            GameRoom room = this.model.Storage.Lobby.OpenNewRoom(args[0]);
+            playerOne.Room = room;
+            room.PlayerOne = playerOne;
 
             //TODO note that the message appears at the client after the "Enter command", make it go before
-            return "Waiting for second player to join...";
+            while (!room.IsGameReady)
+            {
+                continue;
+            }
+
+            return $"{room.Name} is ready";
         }
     }
 }

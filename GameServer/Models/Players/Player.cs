@@ -5,18 +5,19 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Controllers
+namespace GameServer.Models.Players
 {
-    public class Client
+    public class Player
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="tcpClient">Socket connection</param>
-        public Client(TcpClient tcpClient)
+        public Player(TcpClient tcpClient)
         {
             Id++;
             this.TcpClient = tcpClient;
+            this.IsMultiplayer = false;
         }
 
         /// <summary>
@@ -28,5 +29,15 @@ namespace GameServer.Controllers
         /// TcpClient property
         /// </summary>
         public TcpClient TcpClient { get; set; }
+
+        /// <summary>
+        /// Is connected to a multiplayer game property.
+        /// </summary>
+        public bool IsMultiplayer { get; set; } //TODO delete if not needed
+
+        /// <summary>
+        /// Game room property.
+        /// </summary>
+        public GameRoom Room { get; set; }
     }
 }

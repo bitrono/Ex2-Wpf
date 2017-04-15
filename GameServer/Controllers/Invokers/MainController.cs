@@ -5,8 +5,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
+using GameServer.Models.Players;
 using GameServer.Controllers.ConcreteCommands;
 using GameServer.Models;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.Invokers
 {
@@ -17,7 +19,7 @@ namespace GameServer.Controllers.Invokers
     public class MainController : IController
     {
         private Dictionary<string, ICommand> commands;
-        private IList<Client> clients;
+        private IClientHandler clientHandler;
         private IModel model;
 
         /// <summary>
@@ -25,10 +27,26 @@ namespace GameServer.Controllers.Invokers
         /// </summary>
         public MainController()
         {
-            model = new Model();
-            clients = new List<Client>();
+            //Variables definition.
             commands = new Dictionary<string, ICommand>();
+        }
 
+        public void SetClientHandler(IClientHandler clientHandler)
+        {
+            this.clientHandler = clientHandler;
+        }
+
+        public void SetModel(IModel model)
+        {
+            this.model = model;
+            SetCustomCommands();
+        }
+
+        /// <summary>
+        /// Sets custom commands.
+        /// </summary>
+        private void SetCustomCommands()
+        {
             //Adding commands.
             commands.Add("generate", new GenerateMazeCommand(model));
             commands.Add("solve", new SolveMazeCommand(model));
@@ -37,16 +55,6 @@ namespace GameServer.Controllers.Invokers
             commands.Add("join", new JoinCommand(model));
             commands.Add("play", new PlayCommand(model));
             commands.Add("close", new CloseCommand(model));
-        }
-
-        /// <summary>
-        ///Inserts a client to the list.
-        /// </summary>
-        /// <param name="tcpClient"></param>
-        public void InsertClient(TcpClient tcpClient)
-        {
-            Client newClient = new Client(tcpClient);
-            clients.Add(newClient);
         }
 
         public string ExecuteCommand(string commandLine, TcpClient client)

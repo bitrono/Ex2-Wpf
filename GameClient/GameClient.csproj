@@ -48,13 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UserListener.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Listeners\IListener.cs" />
+    <Compile Include="Listeners\UserListener.cs" />
     <Compile Include="GameClient.cs" />
-    <Compile Include="IClientHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerListener.cs" />
+    <Compile Include="Listeners\ServerListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

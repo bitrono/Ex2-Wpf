@@ -4,6 +4,9 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Models;
+using GameServer.Models.Players;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.Invokers
 {
@@ -13,11 +16,23 @@ namespace GameServer.Controllers.Invokers
     public interface IController
     {
         /// <summary>
-        /// /// The execute command the controller has.
+        /// The execute command the controller has.
         /// </summary>
         /// <param name="commandLine">command</param>
         /// <param name="client">connection to client</param>
         /// <returns>result</returns>
         string ExecuteCommand(string commandLine, TcpClient client);
+
+        /// <summary>
+        /// Sets the View.
+        /// </summary>
+        /// <param name="clientHandler">Client handler</param>
+        void SetClientHandler(IClientHandler clientHandler);
+
+        /// <summary>
+        /// Sets the Model.
+        /// </summary>
+        /// <param name="model">Model</param>
+        void SetModel(IModel model);
     }
 }

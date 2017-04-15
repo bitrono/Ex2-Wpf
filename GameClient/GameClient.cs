@@ -9,6 +9,10 @@ namespace GameClient
 {
     public class GameClient
     {
+
+        //TODO delete this class if not necessary
+
+
         public GameClient(TcpClient tcpClient)
         {
             this.TcpClient = tcpClient;

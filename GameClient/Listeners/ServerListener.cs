@@ -4,12 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using GameClient.Listeners;
 
 namespace GameClient
 {
-    public class ServerListener
+    public class ServerListener : IListener
+
     {
         private TcpClient client;
         private StreamReader reader;
@@ -38,7 +41,6 @@ namespace GameClient
         /// </summary>
         public void StartListening()
         {
-           
             this.readTask = new Task(() =>
             {
                 while (Continue)
@@ -50,9 +52,18 @@ namespace GameClient
                     try
                     {
                         // Get result from server
-                        Command = reader.ReadLine();
-                        Console.WriteLine("Result = {0}", Command);
-                        Thread.Sleep(1000);
+
+//                        Command = Regex.Replace(reader.ReadLine(),
+//                            @"(\r\n|\n)", "%");
+
+                        string rawCommand = reader.ReadLine();
+
+                        Command = rawCommand.Replace('@', '\n');
+                        
+
+                        Console.WriteLine("Result:\n {0}", Command);
+                        Command = string.Empty;
+                        //Thread.Sleep(1000);
                     }
 
                     catch (Exception e)
@@ -76,27 +87,4 @@ namespace GameClient
             //readTask.Dispose();
         }
     }
-
-
-   
-    /*
-     * //TODO might still not work because the readline might be faster than the Program.cs
-                while (Continue == false && IsRead == false)
-                {
-                    this.IsRead = false;
-
-                    try
-                    {
-                        // Get result from server
-                        Command = reader.ReadLine();
-                        Console.WriteLine("Result = {0}", Command);
-                        this.IsRead = true;
-                        Thread.Sleep(1000);
-
-                       }
-                    catch (Exception e)
-                    {
-                        Continue = false;
-                    }
-     */
 }

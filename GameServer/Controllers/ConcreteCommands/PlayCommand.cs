@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
+using GameServer.Models.Players;
 using GameServer.Models;
 
 namespace GameServer.Controllers.ConcreteCommands
@@ -15,7 +16,7 @@ namespace GameServer.Controllers.ConcreteCommands
     public class PlayCommand : ICommand
     {
         private IModel model;
-
+    
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -23,7 +24,7 @@ namespace GameServer.Controllers.ConcreteCommands
         public PlayCommand(IModel model)
         {
             this.model = model;
-        }
+      }
 
         public string Execute(string[] args, TcpClient client = null)
         {

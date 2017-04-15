@@ -5,9 +5,10 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using GameServer.Controllers.Handlers;
+using GameServer.Views.Handlers;
 using GameServer.Controllers.Invokers;
-using GameServer.Controllers.Servers;
+using GameServer.Views.Servers;
+using GameServer.Models;
 
 namespace GameServer
 {
@@ -15,17 +16,21 @@ namespace GameServer
     {
         static void Main(string[] args)
         {
-            //TODO add the View part of MVC, it should be the one receiving the messages - move all the Console.WriteLine() to the view
-
+            //Connection configurations.
             int port = int.Parse(ConfigurationManager.AppSettings["port"]);
+            string ip = ConfigurationManager.AppSettings["ip"];
+
+            //Logic handlers.
             IController controller = new MainController();
             IClientHandler clientHandler = new ClientHandler(controller);
+            IModel model = new Model(controller);
+            controller.SetClientHandler(clientHandler);
+            controller.SetModel(model);
             IServer server = new TcpServer();
 
-            server.Start(port, clientHandler);
+            //Activates the server.
+            server.Start(ip, port, clientHandler);
             server.Wait();
-
-
         }
     }
 }

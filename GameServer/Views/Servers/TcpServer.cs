@@ -5,17 +5,20 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using GameServer.Controllers.Handlers;
-using GameServer.Controllers.Servers;
+using GameServer.Views.Handlers;
+using GameServer.Views.Servers;
 
-namespace GameServer.Controllers.Servers
+namespace GameServer.Views.Servers
 {
+    /// <summary>
+    /// The server controlls the communication with the clients.
+    /// </summary>
     public class TcpServer : IServer
     {
         private TcpListener listener;
         private IClientHandler clientHandler;
 
-        public void Start(int port, IClientHandler clientHandler)
+        public void Start(string ip, int port, IClientHandler clientHandler)
         {
             IPEndPoint ep = new
                 IPEndPoint(IPAddress.Parse("127.0.0.1"), port);

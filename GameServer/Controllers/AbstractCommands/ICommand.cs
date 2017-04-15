@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.AbstractCommands
 {
@@ -18,6 +19,6 @@ namespace GameServer.Controllers.AbstractCommands
         /// <param name="args">command arguments</param>
         /// <param name="client">the received client</param>
         /// <returns>command result string</returns>
-        string Execute(string[] args, TcpClient client = null);
+        string Execute(string[] args, ConnectedClient client = null);
     }
 }
