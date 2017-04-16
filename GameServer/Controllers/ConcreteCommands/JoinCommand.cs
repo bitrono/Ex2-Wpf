@@ -8,6 +8,7 @@ using GameServer.Controllers.AbstractCommands;
 using GameServer.Models.Players;
 using GameServer.Models;
 using GameServer.Views.Handlers;
+using MazeLib;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -29,28 +30,45 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
-            GameRoom room = this.model.Storage.Lobby.FindGameRoom(args[1]);
+            string gameName = args[0];
+
+            //Search for the game.
+            GameRoom room = this.model.Storage.Lobby.SearchGameRoom(args[0]);
 
             //Check if room exists.
             if (room == null)
             {
-                return "Game does'nt exist...";
+                return "Error: game doesn't exist.\n";
             }
 
             //Check if the room is available (not taken by other players).
             if (!room.IsGameAvailable)
             {
-                return "Game is already taken...";
+                return "Error: game is already taken.\n";
             }
 
-            //Join the player to the room.
-            Player playerTwo = this.model.Storage.Lobby.InsertNewPlayer(client);
-            playerTwo.Room = room;
-            room.PlayerTwo = playerTwo;
-            room.IsGameReady = true;
-            room.IsGameAvailable = false;
+            //Check if the client is trying to play against himself.
+            if (room.PlayerOne == client)
+            {
+                return "Error: you can't play against yourself.\n";
+            }
 
-            return "Joined the game...";
+            //Set the second player in the game.
+            room.PlayerTwo = client;
+
+            //Set the client as a multiplayer.
+            client.IsMultiplayer = true;
+            client.GameRoom = room;
+
+            //Close the room for other players.
+            room.IsGameAvailable = false;
+            room.IsGameReady = true;
+
+            //Return the maze to the client
+            Maze returnMaze = room.Maze;
+            string mazeInJsonFormat = returnMaze.ToJSON();
+
+            return mazeInJsonFormat;
         }
     }
 }

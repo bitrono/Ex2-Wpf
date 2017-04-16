@@ -13,11 +13,12 @@ namespace GameServer.Models
     public class Storage
     {
         public Lobby Lobby { get; private set; }
-        //public Solutions Solutions {get; set;} //TODO Add that
+        public Mazes Mazes { get; private set; }
 
         public Storage()
         {
             this.Lobby = new Lobby();
+            this.Mazes = new Mazes();
         }
     }
 }

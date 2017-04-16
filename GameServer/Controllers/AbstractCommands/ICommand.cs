@@ -19,6 +19,6 @@ namespace GameServer.Controllers.AbstractCommands
         /// <param name="args">command arguments</param>
         /// <param name="client">the received client</param>
         /// <returns>command result string</returns>
-        void Execute(string[] args, ConnectedClient client = null);
+        string Execute(string[] args, ConnectedClient client = null);
     }
 }

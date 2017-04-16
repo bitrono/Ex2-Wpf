@@ -9,6 +9,7 @@ namespace GameServer.Models.Players
 {
     public class Player
     {
+        //TODO delete this class if not needed
         /// <summary>
         /// Constructor
         /// </summary>

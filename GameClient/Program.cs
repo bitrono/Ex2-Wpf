@@ -45,7 +45,10 @@ namespace GameClient
                     //TODO maybe open a task for userListener as well
                     userListener.StartListening();
 
-                    //Stop listening
+                    //Wait for user to end connection.
+                    userListener.WaitForTask();
+
+                    //Stop listening.
                     serverListener.Stop();
                     serverListener.WaitForTask();
 

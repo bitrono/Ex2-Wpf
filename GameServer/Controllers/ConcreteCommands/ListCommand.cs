@@ -9,6 +9,8 @@ using GameServer.Controllers.Utilities;
 using GameServer.Models;
 using GameServer.Models.Players;
 using GameServer.Views.Handlers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -33,20 +35,38 @@ namespace GameServer.Controllers.ConcreteCommands
             string listOfGames = "Rooms:";
             string parsedList = string.Empty;
 
-            IList<GameRoom> gameRooms = this.model.Storage.Lobby.GameRooms;
+            Dictionary<string, GameRoom> gameRooms = this.model.Storage.Lobby.GameRooms;
 
-            foreach (GameRoom room in gameRooms)
+            //string listInJsonFormat = JsonConvert.SerializeObject(gameRooms);
+
+            //Holds the names of the availiable games/
+            IList<string> gamesList = new List<string>();
+            
+            //Add all the availiable games to the games names list.
+            foreach (KeyValuePair<string,GameRoom> room in gameRooms)
             {
-                if (room.IsGameAvailable)
+                if (room.Value.IsGameAvailable)
                 {
-                    listOfGames += "\n";
-                    listOfGames += room.Name;
+                    gamesList.Add(room.Value.Name);
+//                    listOfGames += "\n";
+//                    listOfGames += room.Value.Name;
                 }
             }
 
-            parsedList = Parser.ChangeNewLine(listOfGames);
+            //Convert the games names list to JSon array.
+            string gamesListInJsonFormat = JsonConvert.SerializeObject(gamesList);
 
-            return parsedList;
+            //client.StreamWriter.Write(gamesListInJsonFormat);
+
+            //If the client is not in a multiplayer game, close the connection.
+            if (!client.IsMultiplayer)
+            {
+                client.IsConnected = false;
+            }
+
+            //parsedList = Parser.ChangeNewLine(listOfGames);
+
+            return gamesListInJsonFormat;
         }
     }
 }

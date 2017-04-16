@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MazeLib;
 
-namespace GameServer.Controllers.Utilities
+namespace GameServer.Controllers.Adapters
 {
     public class Adapter : ISearchable<Position>
     {

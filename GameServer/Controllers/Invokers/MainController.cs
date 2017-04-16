@@ -57,7 +57,7 @@ namespace GameServer.Controllers.Invokers
             commands.Add("close", new CloseCommand(model));
         }
 
-        public string ExecuteCommand(string commandLine, TcpClient client)
+        public string ExecuteCommand(string commandLine, ConnectedClient client)
         {
             string[] arr = commandLine.Split(' ');
             string commandKey = arr[0];

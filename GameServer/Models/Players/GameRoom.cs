@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Views.Handlers;
+using MazeLib;
 
 namespace GameServer.Models.Players
 {
@@ -31,8 +33,10 @@ namespace GameServer.Models.Players
 
         public bool IsGameAvailable { get; set; }
 
-        public Player PlayerOne { get; set; }
+        public ConnectedClient PlayerOne { get; set; }
 
-        public Player PlayerTwo { get; set; }
+        public ConnectedClient PlayerTwo { get; set; }
+
+        public Maze Maze { get; set; }
     }
 }

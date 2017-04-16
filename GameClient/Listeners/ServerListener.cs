@@ -51,19 +51,24 @@ namespace GameClient
 
                     try
                     {
-                        // Get result from server
+                        string rawCommand = string.Empty;
 
-//                        Command = Regex.Replace(reader.ReadLine(),
-//                            @"(\r\n|\n)", "%");
+                        //Read all the data received from the server.
+                        do
+                        {
+                            rawCommand += reader.ReadLine();
+                            rawCommand += '\n';
+                        } while (reader.Peek() > 0);
 
-                        string rawCommand = reader.ReadLine();
+                        Command = rawCommand;
 
-                        Command = rawCommand.Replace('@', '\n');
-                        
+                        if (Command == "{}")
+                        {
+                            Command = "Game closed";
+                        }
 
-                        Console.WriteLine("Result:\n {0}", Command);
+                        Console.WriteLine("Result:\n{0}", Command);
                         Command = string.Empty;
-                        //Thread.Sleep(1000);
                     }
 
                     catch (Exception e)
@@ -84,7 +89,6 @@ namespace GameClient
         public void Stop()
         {
             Continue = false;
-            //readTask.Dispose();
         }
     }
 }

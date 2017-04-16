@@ -13,7 +13,7 @@ namespace GameClient
     {
         private StreamWriter writer;
         private TcpClient tcpClient;
-        private Task task;
+        private Task writeTask;
 
         public bool ContinueListening { get; set; }
         public bool IsMultiplayer { get; set; }
@@ -28,31 +28,36 @@ namespace GameClient
 
         public void StartListening()
         {
-            while (ContinueListening)
+            this.writeTask = new Task(() =>
             {
-                string command = string.Empty;
-
-                Console.WriteLine("Enter a command");
-                command = Console.ReadLine();
-
-                writer.Write(command + '\n');
-                writer.Flush();
-
-                if (command.Split(' ')[0] == "start")
+                while (ContinueListening)
                 {
-                    IsMultiplayer = true;
-                }
+                    string command = string.Empty;
 
-                if (!IsMultiplayer || command == "close")
-                {
-                    ContinueListening = false;
+                    Console.WriteLine("Enter a command\n");
+                    command = Console.ReadLine();
+
+                    writer.Write(command + '\n');
+                    writer.Flush();
+
+                    if (command.Split(' ')[0] == "start" || command.Split(' ')[0] == "join")
+                    {
+                        IsMultiplayer = true;
+                    }
+
+                    if (!IsMultiplayer || command == "close")
+                    {
+                        ContinueListening = false;
+                    }
                 }
-            }
-        }
+            });
+
+            this.writeTask.Start();
+           }
 
         public void WaitForTask()
         {
-            this.task.Wait();
+            this.writeTask.Wait();
         }
 
         public void Stop()

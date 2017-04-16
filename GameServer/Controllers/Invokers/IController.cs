@@ -20,8 +20,8 @@ namespace GameServer.Controllers.Invokers
         /// </summary>
         /// <param name="commandLine">command</param>
         /// <param name="client">connection to client</param>
-        /// <returns>result</returns>
-        string ExecuteCommand(string commandLine, TcpClient client);
+        /// <returns>Result from the command</returns>
+       string ExecuteCommand(string commandLine, ConnectedClient client);
 
         /// <summary>
         /// Sets the View.

@@ -14,19 +14,21 @@ namespace GameServer.Models.Players
         /// </summary>
         public Lobby()
         {
+            //TODO delete players if not needed. or rename ConnectedClient to Players
             this.Players = new List<Player>();
-            this.GameRooms = new List<GameRoom>();
+            this.GameRooms =new Dictionary<string, GameRoom>();
         }
 
         /// <summary>
         /// Players property.
         /// </summary>
+        /// TODO delete if not needed
         public IList<Player> Players { get; set; }
 
         /// <summary>
         /// Game rooms property.
         /// </summary>
-        public IList<GameRoom> GameRooms { get; set; }
+        public Dictionary<string, GameRoom> GameRooms { get; private set; }
 
         /// <summary>
         ///Inserts a new player to the list.
@@ -35,6 +37,7 @@ namespace GameServer.Models.Players
         /// <returns>New Player</returns>
         public Player InsertNewPlayer(TcpClient tcpClient)
         {
+            //TODO delete this method if not needed
             //TODO check if player does'nt exist already, and also remove him when he finishes the game
 
             Player newClient = new Player(tcpClient);
@@ -45,15 +48,21 @@ namespace GameServer.Models.Players
         }
 
         /// <summary>
-        /// Adds a new game room to the list.
+        /// Adds a new game room to the storage.
         /// </summary>
         /// <param name="name">Game name</param>
         /// <returns>New game room</returns>
-        public GameRoom OpenNewRoom(string name)
+        public GameRoom CreateNewRoom(string name)
         {
-            GameRoom newRoom = new GameRoom(name);
 
-            this.GameRooms.Add(newRoom);
+            if (this.GameRooms.ContainsKey(name))
+            {
+                return null;
+            }
+
+            GameRoom newRoom = new GameRoom(name);
+            
+            this.GameRooms.Add(name, newRoom);
 
             return newRoom;
         }
@@ -63,17 +72,21 @@ namespace GameServer.Models.Players
         /// </summary>
         /// <param name="name">string</param>
         /// <returns>Game room</returns>
-        public GameRoom FindGameRoom(string name)
+        public GameRoom SearchGameRoom(string name)
         {
-            foreach (var room in this.GameRooms)
+            GameRoom gameRoom;
+
+            //Check if game room exists in storage.
+            if (!GameRooms.ContainsKey(name))
             {
-                if (room.Name == name)
-                {
-                    return room;
-                }
+                return null;
             }
 
-            return null;
+            //Sets the return value to requested game room.
+            gameRoom = GameRooms[name];
+
+            return gameRoom;
+
         }
 
         /// <summary>
@@ -82,14 +95,14 @@ namespace GameServer.Models.Players
         /// <param name="name"></param>
         public void DeleteGameRoom(string name)
         {
-            foreach (var room in this.GameRooms)
+            //Check if game room exists in storage.
+            if (!GameRooms.ContainsKey(name))
             {
-                if (room.Name == name)
-                {
-                    this.GameRooms.Remove(room);
-                    break;
-                }
+                return;
             }
+
+            //Removes the game room from storage.
+            GameRooms.Remove(name);
         }
     }
 }

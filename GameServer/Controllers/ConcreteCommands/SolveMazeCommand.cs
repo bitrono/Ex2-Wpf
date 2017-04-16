@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Models;
 using GameServer.Views.Handlers;
+using MazeLib;
+using SearchAlgorithmsLib;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -24,12 +26,56 @@ namespace GameServer.Controllers.ConcreteCommands
         public SolveMazeCommand(IModel model)
         {
             this.model = model;
-            }
+        }
 
         public string Execute(string[] args, ConnectedClient client)
         {
-           
-            return "Solved maze...";
+            string mazeName = args[0];
+
+            //Check that all the arguments were received.
+            if (args.Length != 2)
+            {
+                return "Error: Parameters don't match the command.\n";
+            }
+
+            //Search the requested maze in the storage.
+            Maze maze = this.model.Storage.Mazes.SearchGeneratedMaze(mazeName);
+
+            //Check that the maze exists in the storage.
+            if (maze == null)
+            {
+                return $"Error: Maze {mazeName} doesn't exist.\n";
+            }
+
+            //Take the algorithm type.
+            int algorithmType = 0;
+            bool isAlgorithm = int.TryParse(args[1], out algorithmType);
+
+            //Check that the algorithm type is a number.
+            if (!isAlgorithm)
+            {
+                return "Error: Algorithm type must be a number.\n";
+            }
+
+            //Holds the solution in JSon format.
+            string solutionInJsonFormat = string.Empty;
+
+            //Try to solve the maze.
+            try
+            {
+                Solution<Position> solution =
+                    this.model.Solve(maze, algorithmType);
+                //TODO solutionInJsonFormat = solution.ToJson();
+                //TODO client.StreamWriter.Write(solutionInJsonFormat);
+            }
+            catch (Exception e)
+            {
+                return "Error: Algorithm type doesn't exist.\n";
+            }
+
+            return solutionInJsonFormat;
+
+            //return "Solved maze...";
         }
     }
 }

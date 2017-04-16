@@ -15,9 +15,10 @@ namespace GameServer.Views.Handlers
     {
         private IController controller;
         private string commandLine;
-       
+
         //TODO delete these if not needed
         private bool Continue { get; set; }
+
         private bool MultiplayerOn { get; set; }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace GameServer.Views.Handlers
         public ClientHandler(IController controller)
         {
             this.controller = controller;
-          }
+        }
 
         public void HandleClient(TcpClient client)
         {
@@ -39,37 +40,41 @@ namespace GameServer.Views.Handlers
                 using (StreamReader reader = new StreamReader(stream))
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    ConnectedClient connectedClient = new ConnectedClient(client, writer);
+                    //Contains the connected client data.
+                    ConnectedClient connectedClient =
+                        new ConnectedClient(client, writer);
 
+                    //Loop while the client is connected.
                     while (connectedClient.IsConnected)
                     {
                         //TODO remove the Console.WriteLines if they are not needed
-                        Console.WriteLine("Waiting for command");            //what happens during play from other player, how to get it? and what is the usage of the tcpClient in the command?
+                        Console.WriteLine(
+                            "Waiting for command"); 
                         commandLine = reader.ReadLine();
                         Console.WriteLine("Got command: {0}", commandLine);
-                        controller.ExecuteCommand(commandLine, client);
-
-                        /*
                         string result =
-                            controller.ExecuteCommand(commandLine, client);
-                        Console.WriteLine($"Sending to client: {result}");
-                        writer.Write(result + '\n');
-                        writer.Flush();
+                            controller.ExecuteCommand(commandLine,
+                                connectedClient);
 
-                        
-                        //TODO remove that
-                        if (this.commandLine.Split(' ')[0] == "start")
+                        //Check if the message is not empty.
+                        if (result != string.Empty)
                         {
-                            this.MultiplayerOn = true;
+                            Console.WriteLine($"Sending to client: {result}");
+                            
+                            //Sends message to the client.
+                            writer.Write(result + '\n');
+                            writer.Flush();
                         }
+                       
 
-                        if (!this.MultiplayerOn || this.commandLine == "close")
+                        //If the client is not in a multiplayer game, close the connection.
+                        if (!connectedClient.IsMultiplayer)
                         {
-                            this.Continue = false;
+                            connectedClient.IsConnected = false;
                         }
-                        */
                     }
 
+                    //Close the connection.
                     stream.Close();
                     client.Close();
                 }

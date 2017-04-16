@@ -8,6 +8,8 @@ using GameServer.Controllers.AbstractCommands;
 using GameServer.Models;
 using GameServer.Models.Players;
 using GameServer.Views.Handlers;
+using MazeLib;
+using Newtonsoft.Json.Linq;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -29,20 +31,44 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
-            GameRoom roomToClose = this.model.Storage.Lobby.FindGameRoom(args[0]);
-            roomToClose.PlayerOne.IsMultiplayer = false;
-            roomToClose.PlayerOne.Room = null;
+            //Get the game room members.
+            GameRoom room = client.GameRoom;
+            ConnectedClient playerOne;
+            ConnectedClient playerTwo;
 
-            if (roomToClose.PlayerTwo != null)
+            //Set the players accordingly.
+            if (client == room.PlayerOne)
             {
-                roomToClose.PlayerTwo.IsMultiplayer = false;
-                roomToClose.PlayerTwo.Room = null;
+                playerOne = client;
+                playerTwo = room.PlayerTwo;
             }
-          
-            roomToClose.IsGameClosed = true;
-            this.model.Storage.Lobby.DeleteGameRoom(args[0]);
+            else
+            {
+                playerOne = room.PlayerTwo;
+                playerTwo = client;
+            }
 
-            return "Game closed...";
+            //Disconnect players from multiplayer.
+            playerOne.IsMultiplayer = false;
+            playerTwo.IsMultiplayer = false;
+            playerOne.GameRoom = null;
+            playerTwo.GameRoom = null;
+
+            //Delete the maze the players played upon.
+            Maze maze = room.Maze;
+            this.model.Storage.Mazes.StartedMazes.Remove(maze.Name);
+
+            //Delete game room.
+            room.IsGameClosed = true;
+            this.model.Storage.Lobby.DeleteGameRoom(room.Name);
+
+            JObject emptyJObject = new JObject();
+
+            //send empty JSon to player two to notify the game is closed.
+            playerTwo.StreamWriter.Write(emptyJObject.ToString() + '\n');
+            playerTwo.StreamWriter.Flush();
+
+            return string.Empty;
         }
     }
 }
