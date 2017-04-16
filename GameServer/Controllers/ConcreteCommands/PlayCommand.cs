@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Models.Players;
 using GameServer.Models;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -26,7 +27,7 @@ namespace GameServer.Controllers.ConcreteCommands
             this.model = model;
       }
 
-        public string Execute(string[] args, TcpClient client = null)
+        public string Execute(string[] args, ConnectedClient client)
         {
             return "Moved...";
         }

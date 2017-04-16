@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Models;
 using GameServer.Models.Players;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -26,7 +27,7 @@ namespace GameServer.Controllers.ConcreteCommands
             this.model = model;
         }
 
-        public string Execute(string[] args, TcpClient client = null)
+        public string Execute(string[] args, ConnectedClient client)
         {
             GameRoom roomToClose = this.model.Storage.Lobby.FindGameRoom(args[0]);
             roomToClose.PlayerOne.IsMultiplayer = false;

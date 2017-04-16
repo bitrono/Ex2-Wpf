@@ -8,6 +8,7 @@ using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Utilities;
 using GameServer.Models;
 using GameServer.Models.Players;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -27,7 +28,7 @@ namespace GameServer.Controllers.ConcreteCommands
             this.model = model;
         }
 
-        public string Execute(string[] args, TcpClient client = null)
+        public string Execute(string[] args, ConnectedClient client)
         {
             string listOfGames = "Rooms:";
             string parsedList = string.Empty;

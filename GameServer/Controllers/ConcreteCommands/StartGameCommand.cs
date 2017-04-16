@@ -28,12 +28,12 @@ namespace GameServer.Controllers.ConcreteCommands
             this.model = model;
         }
 
-        public string Execute(string[] args, ConnectedClient client = null)
+        public string Execute(string[] args, ConnectedClient client)
         {
 
             client.IsMultiplayer = true;
 
-            Player playerOne = this.model.Storage.Lobby.InsertNewPlayer(client);
+            Player playerOne = this.model.Storage.Lobby.InsertNewPlayer(client.TcpClient);
             GameRoom room = this.model.Storage.Lobby.OpenNewRoom(args[0]);
             playerOne.Room = room;
             room.PlayerOne = playerOne;
@@ -44,6 +44,7 @@ namespace GameServer.Controllers.ConcreteCommands
                 continue;
             }
 
+            client.StreamWriter.Write($"{room.Name} is ready\n");
             return $"{room.Name} is ready";
         }
     }

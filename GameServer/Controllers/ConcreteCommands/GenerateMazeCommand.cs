@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Models;
+using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.ConcreteCommands
 {
@@ -24,7 +25,7 @@ namespace GameServer.Controllers.ConcreteCommands
         {
             this.model = model;
         }
-        public string Execute(string[] args, TcpClient client)
+        public string Execute(string[] args, ConnectedClient client)
         {
             string name = args[0];
             int rows = int.Parse(args[1]);

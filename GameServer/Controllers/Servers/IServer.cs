@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameServer.Views.Handlers;
 
-namespace GameServer.Views.Servers
+namespace GameServer.Controllers.Servers
 {
     /// <summary>
     /// The basic server interface.

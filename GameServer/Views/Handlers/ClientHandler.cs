@@ -44,7 +44,7 @@ namespace GameServer.Views.Handlers
                     while (connectedClient.IsConnected)
                     {
                         //TODO remove the Console.WriteLines if they are not needed
-                        Console.WriteLine("Waiting for command");
+                        Console.WriteLine("Waiting for command");            //what happens during play from other player, how to get it? and what is the usage of the tcpClient in the command?
                         commandLine = reader.ReadLine();
                         Console.WriteLine("Got command: {0}", commandLine);
                         controller.ExecuteCommand(commandLine, client);

@@ -6,9 +6,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Views.Handlers;
-using GameServer.Views.Servers;
+using GameServer.Controllers.Servers;
 
-namespace GameServer.Views.Servers
+namespace GameServer.Controllers.Servers
 {
     /// <summary>
     /// The server controlls the communication with the clients.

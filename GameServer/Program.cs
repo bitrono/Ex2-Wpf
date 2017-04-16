@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameServer.Views.Handlers;
 using GameServer.Controllers.Invokers;
-using GameServer.Views.Servers;
+using GameServer.Controllers.Servers;
 using GameServer.Models;
 
 namespace GameServer
