@@ -18,8 +18,20 @@ namespace GameServer.Controllers.Invokers
     /// </summary>
     public class MainController : IController
     {
+        /// <summary>
+        /// Contains the available commands.
+        /// </summary>
         private Dictionary<string, ICommand> commands;
+
+        //TODO delete if not needed.
+        /// <summary>
+        /// Reference to the client handler.
+        /// </summary>
         private IClientHandler clientHandler;
+
+        /// <summary>
+        /// Reference to the model.
+        /// </summary>
         private IModel model;
 
         /// <summary>
@@ -39,6 +51,8 @@ namespace GameServer.Controllers.Invokers
         public void SetModel(IModel model)
         {
             this.model = model;
+
+            //Load commands.
             SetCustomCommands();
         }
 

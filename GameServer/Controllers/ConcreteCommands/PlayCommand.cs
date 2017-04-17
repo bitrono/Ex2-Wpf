@@ -34,15 +34,25 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
+            //Check the number of parameters received is correct.
+            if (args.Length != 1)
+            {
+                return "Error: wrong parameters.\n";
+            }
+
+            //Initialize game members.
             GameRoom room = client.GameRoom;
             ConnectedClient rivalPlayer;
+
             string move = args[0];
 
+            //Check if the move is legal.
             if (!ContainsMove(move))
             {
                 return "Error: illegal move\n";
             }
             
+            //Set players.
             if (room.PlayerOne == client)
             {
                 rivalPlayer = room.PlayerTwo;

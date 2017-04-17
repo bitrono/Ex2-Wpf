@@ -15,24 +15,35 @@ namespace GameServer.Controllers.Servers
     /// </summary>
     public class TcpServer : IServer
     {
+        /// <summary>
+        /// Tcp listener.
+        /// </summary>
         private TcpListener listener;
+
+        /// <summary>
+        /// Reference to a client handler.
+        /// </summary>
         private IClientHandler clientHandler;
 
         public void Start(string ip, int port, IClientHandler clientHandler)
         {
+            //Initialize connection settings.
             IPEndPoint ep = new
-                IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+                IPEndPoint(IPAddress.Parse(ip), port);
             listener = new TcpListener(ep);
 
+            //Start listening for connections.
             listener.Start();
             Console.WriteLine("Waiting for connections...");
 
+            //The server task.
             this.ServerTask = new Task(() =>
             {
                 while (true)
                 {
                     try
                     {
+                        //Accept new connection.
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
                         clientHandler.HandleClient(client);
@@ -58,8 +69,12 @@ namespace GameServer.Controllers.Servers
         /// <summary>
         /// Server task property
         /// </summary>
+        /// <value>Task.</value>
         public Task ServerTask { get; private set; }
 
+        /// <summary>
+        /// Stops the server activity.
+        /// </summary>
         public void Stop()
         {
             listener.Stop();

@@ -20,9 +20,86 @@ namespace GameClient
         {
             int port = int.Parse(ConfigurationManager.AppSettings["port"]);
             string ip = ConfigurationManager.AppSettings["ip"];
+            IPEndPoint endPoint =
+                new IPEndPoint(IPAddress.Parse(ip), port);
+
+            TcpClient tcpClient = null;
+            NetworkStream stream = null;
+            StreamReader reader = null;
+            StreamWriter writer = null;
+            ServerListener serverListener = null;
+            bool isMultiplayer = false;
+            bool isConnected = false;
+
+
+            //tcpClient.Connect(ep);
+
+            while (true)
+            {
+                string command = string.Empty;
+
+                Console.WriteLine("Enter a command");
+
+                command = Console.ReadLine();
+
+                if (!isConnected || serverListener.IsMultiplayer == false)
+                {
+                    tcpClient = new TcpClient();
+                    //TODO dispose streams
+                    tcpClient.Connect(endPoint);
+                    stream = tcpClient.GetStream();
+                    writer = new StreamWriter(stream);
+                    reader = new StreamReader(stream);
+
+                    isConnected = true;
+                    serverListener = new ServerListener(tcpClient, reader);
+                    serverListener.StartListening();
+                    //start listener
+                }
+
+                try
+                {
+                    if (command.Split(' ')[0] == "start" ||
+                        command.Split(' ')[0] == "join")
+                    {
+                        isMultiplayer = true;
+                        serverListener.IsMultiplayer = true;
+                    }
+
+                    writer.Write(command + '\n');
+                    writer.Flush();
+
+
+                    if (!isMultiplayer || command == "close")
+                    {
+                        //TODO might need to close stream, and also dispose
+                        //serverListener.Continue = false;
+                        isMultiplayer = false;
+                        serverListener.IsMultiplayer = false;
+
+                        serverListener.WaitForTask();
+                        stream.Close();
+                        tcpClient.Close();
+                        isConnected = false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    continue;
+                }
+            }
+        }
+    }
+}
+
+
+/*static void Main(string[] args)
+        {
+            int port = int.Parse(ConfigurationManager.AppSettings["port"]);
+            string ip = ConfigurationManager.AppSettings["ip"];
             IPEndPoint ep =
                 new IPEndPoint(IPAddress.Parse(ip), port);
-            IListener userListener;
+            UserListener userListener;
             IListener serverListener;
 
             while (true)
@@ -35,8 +112,9 @@ namespace GameClient
                 using (StreamReader reader = new StreamReader(stream))
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    serverListener = new ServerListener(client, reader);
                     userListener = new UserListener(client, writer);
+                    serverListener = new ServerListener(client, reader, userListener);
+                    
 
                     //Start listening for server input.
                     serverListener.StartListening();
@@ -58,5 +136,4 @@ namespace GameClient
                 }
             }
         }
-    }
-}
+*/

@@ -29,6 +29,12 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
+            //Check the number of parameters received is correct.
+            if (args.Length != 3)
+            {
+                return "Error: wrong parameters.\n";
+            }
+
             string name = args[0];
 
             //Check if the maze already exists in the storage of generated mazes.

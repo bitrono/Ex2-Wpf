@@ -30,13 +30,13 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
-            string mazeName = args[0];
-
-            //Check that all the arguments were received.
+           //Check that all the arguments were received.
             if (args.Length != 2)
             {
                 return "Error: Parameters don't match the command.\n";
             }
+
+            string mazeName = args[0];
 
             //Search the requested maze in the storage.
             Maze maze = this.model.Storage.Mazes.SearchGeneratedMaze(mazeName);

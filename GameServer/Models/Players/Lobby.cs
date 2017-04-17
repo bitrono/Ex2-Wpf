@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Players
 {
+    /// <summary>
+    /// Contains and manages the game rooms.
+    /// </summary>
     public class Lobby
     {
         /// <summary>
@@ -28,6 +31,7 @@ namespace GameServer.Models.Players
         /// <summary>
         /// Game rooms property.
         /// </summary>
+        /// <value>Dictionary</value>
         public Dictionary<string, GameRoom> GameRooms { get; private set; }
 
         /// <summary>
@@ -54,14 +58,16 @@ namespace GameServer.Models.Players
         /// <returns>New game room</returns>
         public GameRoom CreateNewRoom(string name)
         {
-
+            //Check if the dictionary contains the given name.
             if (this.GameRooms.ContainsKey(name))
             {
                 return null;
             }
 
+            //Create a new game room.
             GameRoom newRoom = new GameRoom(name);
             
+            //Add the new room to the dictionary.
             this.GameRooms.Add(name, newRoom);
 
             return newRoom;
@@ -92,7 +98,7 @@ namespace GameServer.Models.Players
         /// <summary>
         /// Removes the game room with the fiven name from the list
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Maze name.</param>
         public void DeleteGameRoom(string name)
         {
             //Check if game room exists in storage.

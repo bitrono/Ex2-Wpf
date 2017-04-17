@@ -31,18 +31,24 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
+           //TODO close both the gameRoom and delete the maze and solution on close command
+           
+            //Check the number of parameters received is correct.
+            if (args.Length != 3)
+            {
+                return "Error: wrong parameters.\n";
+            }
+
             string gameName = args[0];
-
-            //TODO close both the gameRoom and delete the maze and solution on close command
-
             GameRoom room = this.model.Storage.Lobby.CreateNewRoom(gameName);
 
+            //Check that the game doesn't exist.
             if (room == null)
             {
                 return ("Error: game already exists.\n");
             }
 
-            //Creates the requested maze.
+           //Creates the requested maze.
             int rows = int.Parse(args[1]);
             int cols = int.Parse(args[2]);
             Maze maze = model.GenerateMaze(gameName, rows, cols);

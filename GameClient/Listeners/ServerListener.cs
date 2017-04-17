@@ -11,15 +11,17 @@ using GameClient.Listeners;
 
 namespace GameClient
 {
-    public class ServerListener : IListener
+    public class ServerListener
 
     {
         private TcpClient client;
         private StreamReader reader;
         private Task readTask;
+        private UserListener userListener;
+        private bool isConnected;
 
         private bool Continue { get; set; }
-        private bool IsMultiplayer { get; set; }
+        public bool IsMultiplayer { get; set; }
         private bool IsRead { get; set; }
         public string Command { get; private set; }
 
@@ -34,6 +36,8 @@ namespace GameClient
             this.reader = reader;
             this.Continue = true;
             this.IsRead = false;
+            this.IsMultiplayer = false;
+//            this.isConnected = isConnected;
         }
 
         /// <summary>
@@ -41,13 +45,14 @@ namespace GameClient
         /// </summary>
         public void StartListening()
         {
+            Continue = true;
+
             this.readTask = new Task(() =>
             {
                 while (Continue)
                 {
-                    this.Continue = true;
-                    this.IsRead = false;
-                    this.IsMultiplayer = false;
+                    //this.Continue = true;
+                    //this.IsRead = false;
 
                     try
                     {
@@ -62,18 +67,32 @@ namespace GameClient
 
                         Command = rawCommand;
 
-                        if (Command == "{}")
+                        if (Command == "{}\n")
                         {
                             Command = "Game closed";
+                            //userListener.Stop();
+                            Continue = false;
+                            IsMultiplayer = false;
+                            isConnected = false;
+                            client.Close();
                         }
 
-                        Console.WriteLine("Result:\n{0}", Command);
-                        Command = string.Empty;
+                        if (Command != "\n")
+                        {
+                            Console.WriteLine("Result:\n{0}", Command);
+                            Command = string.Empty;
+                        }
+                      
+
+                        if (!IsMultiplayer)
+                        {
+                            Continue = false;
+                        }
                     }
 
                     catch (Exception e)
                     {
-                        return;
+                        Continue = false;
                     }
                 }
             });

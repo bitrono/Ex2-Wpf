@@ -33,26 +33,23 @@ namespace GameServer.Controllers.ConcreteCommands
         {
             //Get the game room members.
             GameRoom room = client.GameRoom;
-            ConnectedClient playerOne;
-            ConnectedClient playerTwo;
+            ConnectedClient rivalPlayer;
 
             //Set the players accordingly.
-            if (client == room.PlayerOne)
+            if (room.PlayerOne == client)
             {
-                playerOne = client;
-                playerTwo = room.PlayerTwo;
+                rivalPlayer = room.PlayerTwo;
             }
             else
             {
-                playerOne = room.PlayerTwo;
-                playerTwo = client;
+                rivalPlayer = room.PlayerOne;
             }
 
             //Disconnect players from multiplayer.
-            playerOne.IsMultiplayer = false;
-            playerTwo.IsMultiplayer = false;
-            playerOne.GameRoom = null;
-            playerTwo.GameRoom = null;
+            client.IsMultiplayer = false;
+            rivalPlayer.IsMultiplayer = false;
+            client.GameRoom = null;
+            rivalPlayer.GameRoom = null;
 
             //Delete the maze the players played upon.
             Maze maze = room.Maze;
@@ -65,8 +62,10 @@ namespace GameServer.Controllers.ConcreteCommands
             JObject emptyJObject = new JObject();
 
             //send empty JSon to player two to notify the game is closed.
-            playerTwo.StreamWriter.Write(emptyJObject.ToString() + '\n');
-            playerTwo.StreamWriter.Flush();
+            rivalPlayer.StreamWriter.Write(emptyJObject.ToString() + '\n');
+            rivalPlayer.StreamWriter.Flush();
+            rivalPlayer.IsConnected = false;
+            client.IsConnected = false;
 
             return string.Empty;
         }

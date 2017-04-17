@@ -8,8 +8,14 @@ using SearchAlgorithmsLib;
 
 namespace GameServer.Models
 {
+    /// <summary>
+    /// A storage for mazes.
+    /// </summary>
     public class Mazes
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Mazes()
         {
             this.GeneratedMazes = new Dictionary<string, Maze>();
@@ -17,20 +23,31 @@ namespace GameServer.Models
             this.StartedMazes = new Dictionary<string, Maze>();
         }
 
+        /// <summary>
+        /// GeneratedMazes property.
+        /// </summary>
+        /// <value>Dictionary</value>
         public Dictionary<string, Maze> GeneratedMazes { get; private set; }
 
+        /// <summary>
+        /// SolvedMazes property.
+        /// </summary>
+        /// <value>Dictionary.</value>
         public Dictionary<string, Solution<Position>> SolvedMazes
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Started mazes dictionary.
+        /// </summary>
+        /// <value>Dictionary</value>
         public Dictionary<string, Maze> StartedMazes // for multiplayer
         {
             get;
             private set;
         }
-
 
         /// <summary>
         /// Searches for a singleplayer maze in the storage.
@@ -41,6 +58,7 @@ namespace GameServer.Models
         {
             Maze maze;
 
+            //Check if a maze with the given name exists in the dictionary.
             if (!GeneratedMazes.ContainsKey(name))
             {
                 maze = null;
@@ -62,6 +80,7 @@ namespace GameServer.Models
         {
             Maze maze;
 
+            //Check if a maze with the given name exists in the dictionary.
             if (!StartedMazes.ContainsKey(name))
             {
                 maze = null;

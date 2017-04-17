@@ -53,7 +53,7 @@ namespace GameClient
             });
 
             this.writeTask.Start();
-           }
+        }
 
         public void WaitForTask()
         {

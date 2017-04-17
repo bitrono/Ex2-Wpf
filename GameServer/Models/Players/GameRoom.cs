@@ -16,7 +16,7 @@ namespace GameServer.Models.Players
        /// <summary>
        /// Constructor.
        /// </summary>
-       /// <param name="name">Game name</param>
+       /// <param name="name">Game name.</param>
         public GameRoom(string name)
         {
             this.Name = name;
@@ -25,18 +25,46 @@ namespace GameServer.Models.Players
             this.IsGameAvailable = true;
         }
 
+        /// <summary>
+        /// Maze name property.
+        /// </summary>
+        /// <value>Maze name.</value>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Is the game closed property.
+        /// </summary>
+        /// <value>Bool is the game closed.</value>
         public bool IsGameClosed { get; set; }
 
+        /// <summary>
+        /// Is the game ready property.
+        /// </summary>
+        /// <value>Bool is the game ready.</value>
         public bool IsGameReady { get; set; }
 
+        /// <summary>
+        /// Is the game availiable property.
+        /// </summary>
+        /// <value>Bool is the game availiable.</value>
         public bool IsGameAvailable { get; set; }
 
+        /// <summary>
+        /// player one property.
+        /// </summary>
+        /// <value>ConnectedPlayer.</value>
         public ConnectedClient PlayerOne { get; set; }
 
+        /// <summary>
+        /// player two property.
+        /// </summary>
+        /// <value>ConnectedPlayer.</value>
         public ConnectedClient PlayerTwo { get; set; }
 
+        /// <summary>
+        /// Maze property.
+        /// </summary>
+        /// <value>Maze.</value>
         public Maze Maze { get; set; }
     }
 }

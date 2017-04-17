@@ -9,9 +9,17 @@ using GameServer.Models.Players;
 
 namespace GameServer.Views.Handlers
 {
+    /// <summary>
+    /// Holds the client that is connected to the game.
+    /// </summary>
     public class ConnectedClient
     {
-       public ConnectedClient(TcpClient tcpClient, StreamWriter streamWriter)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="tcpClient">A tcpClient.</param>
+        /// <param name="streamWriter">A stream for writing.</param>
+        public ConnectedClient(TcpClient tcpClient, StreamWriter streamWriter)
         {
             this.TcpClient = tcpClient;
             this.StreamWriter = streamWriter;
@@ -20,10 +28,34 @@ namespace GameServer.Views.Handlers
             this.GameRoom = null;
         }
 
+        /// <summary>
+        /// TcpClient property.
+        /// </summary>
+        /// <value>TcpClient.</value>
         public TcpClient TcpClient { get; private set; }
+
+        /// <summary>
+        /// StreamWriter property.
+        /// </summary>
+        /// <value>StreamWriter.</value>
         public StreamWriter StreamWriter { get; private set; }
+
+        /// <summary>
+        /// Is the client a multiplayer property.
+        /// </summary>
+        /// <value>Bool value is a multiplayer.</value>
         public bool IsMultiplayer { get; set; }
+
+        /// <summary>
+        /// Is the client connected to the server property.
+        /// </summary>
+        /// <value>Bool is the client connected.</value>
         public bool IsConnected { get; set; }
+
+        /// <summary>
+        /// Game room property.
+        /// </summary>
+        /// <value>GameRoom</value>
         public GameRoom GameRoom { get; set; }
     }
 }

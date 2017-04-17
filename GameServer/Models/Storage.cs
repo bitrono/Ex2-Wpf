@@ -12,13 +12,25 @@ namespace GameServer.Models
     /// </summary>
     public class Storage
     {
-        public Lobby Lobby { get; private set; }
-        public Mazes Mazes { get; private set; }
-
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Storage()
         {
             this.Lobby = new Lobby();
             this.Mazes = new Mazes();
         }
+
+        /// <summary>
+        /// Lobby property.
+        /// </summary>
+        /// <value>Lobby.</value>
+        public Lobby Lobby { get; private set; }
+
+        /// <summary>
+        /// Mazes property.
+        /// </summary>
+        /// <value>Mazes.</value>
+        public Mazes Mazes { get; private set; }
     }
 }

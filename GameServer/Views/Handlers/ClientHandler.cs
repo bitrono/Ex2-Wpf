@@ -13,13 +13,20 @@ namespace GameServer.Views.Handlers
 {
     public class ClientHandler : IClientHandler
     {
-        private IController controller;
+        /// <summary>
+        /// Reference to the contoller of the server.
+        /// </summary>
+        private readonly IController controller;
+
+        /// <summary>
+        /// The command received from the client.
+        /// </summary>
         private string commandLine;
 
         //TODO delete these if not needed
-        private bool Continue { get; set; }
-
-        private bool MultiplayerOn { get; set; }
+        //private bool Continue { get; set; }
+        //TODO delete these if not needed
+        //private bool MultiplayerOn { get; set; }
 
         /// <summary>
         /// Constructor.
@@ -32,10 +39,14 @@ namespace GameServer.Views.Handlers
 
         public void HandleClient(TcpClient client)
         {
-            this.Continue = true;
-            this.MultiplayerOn = false;
+            //TODO delete these if not needed
+            //this.Continue = true;
+            //this.MultiplayerOn = false;
+
+            //Starts the client handler task.
             new Task(() =>
             {
+                //Initializes the streams.
                 using (NetworkStream stream = client.GetStream())
                 using (StreamReader reader = new StreamReader(stream))
                 using (StreamWriter writer = new StreamWriter(stream))
@@ -49,8 +60,14 @@ namespace GameServer.Views.Handlers
                     {
                         //TODO remove the Console.WriteLines if they are not needed
                         Console.WriteLine(
-                            "Waiting for command"); 
+                            "Waiting for command");
                         commandLine = reader.ReadLine();
+
+                        //TODO wrong way to handle find another way
+                        if (commandLine == null)
+                        {
+                            continue;
+                        }
                         Console.WriteLine("Got command: {0}", commandLine);
                         string result =
                             controller.ExecuteCommand(commandLine,
@@ -60,12 +77,12 @@ namespace GameServer.Views.Handlers
                         if (result != string.Empty)
                         {
                             Console.WriteLine($"Sending to client: {result}");
-                            
+
                             //Sends message to the client.
                             writer.Write(result + '\n');
                             writer.Flush();
                         }
-                       
+
 
                         //If the client is not in a multiplayer game, close the connection.
                         if (!connectedClient.IsMultiplayer)
