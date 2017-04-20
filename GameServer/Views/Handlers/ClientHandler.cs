@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GameServer.Models.Players;
 using GameServer.Views.Handlers;
 using GameServer.Controllers.Invokers;
+using GameServer.Controllers.Servers;
 
 namespace GameServer.Views.Handlers
 {
@@ -53,41 +54,50 @@ namespace GameServer.Views.Handlers
                 {
                     //Contains the connected client data.
                     ConnectedClient connectedClient =
-                        new ConnectedClient(client, writer);
+                        new ConnectedClient(client, writer,
+                            this.controller.GetMutexes());
 
                     //Loop while the client is connected.
                     while (connectedClient.IsConnected)
                     {
-                        //TODO remove the Console.WriteLines if they are not needed
-                        Console.WriteLine(
-                            "Waiting for command");
-                        commandLine = reader.ReadLine();
-
-                        //TODO wrong way to handle find another way
-                        if (commandLine == null)
+                        try
                         {
-                            continue;
+                            //TODO remove the Console.WriteLines if they are not needed
+                            Console.WriteLine(
+                                "Waiting for command");
+                            commandLine = reader.ReadLine();
+
+                            //TODO wrong way to handle find another way
+                            //                        if (commandLine == null)
+                            //                        {
+                            //                            continue;
+                            //                        }
+                            Console.WriteLine("Got command: {0}", commandLine);
+                            string result =
+                                controller.ExecuteCommand(commandLine,
+                                    connectedClient);
+
+                            //Check if the message is not empty.
+                            if (result != string.Empty)
+                            {
+                                Console.WriteLine(
+                                    $"Sending to client: {result}");
+
+                                //Sends message to the client.
+                                writer.Write(result + '\n');
+                                writer.Flush();
+                            }
+
+
+                            //If the client is not in a multiplayer game, close the connection.
+                            if (!connectedClient.IsMultiplayer)
+                            {
+                                connectedClient.IsConnected = false;
+                            }
                         }
-                        Console.WriteLine("Got command: {0}", commandLine);
-                        string result =
-                            controller.ExecuteCommand(commandLine,
-                                connectedClient);
-
-                        //Check if the message is not empty.
-                        if (result != string.Empty)
+                        catch (Exception e)
                         {
-                            Console.WriteLine($"Sending to client: {result}");
-
-                            //Sends message to the client.
-                            writer.Write(result + '\n');
-                            writer.Flush();
-                        }
-
-
-                        //If the client is not in a multiplayer game, close the connection.
-                        if (!connectedClient.IsMultiplayer)
-                        {
-                            connectedClient.IsConnected = false;
+                            break;
                         }
                     }
 

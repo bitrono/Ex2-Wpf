@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Models.Players;
 using GameServer.Controllers.ConcreteCommands;
+using GameServer.Controllers.Servers;
+using GameServer.Controllers.Utilities;
 using GameServer.Models;
 using GameServer.Views.Handlers;
 
@@ -22,6 +24,8 @@ namespace GameServer.Controllers.Invokers
         /// Contains the available commands.
         /// </summary>
         private Dictionary<string, ICommand> commands;
+
+        private Mutexes mutexes;
 
         //TODO delete if not needed.
         /// <summary>
@@ -41,6 +45,7 @@ namespace GameServer.Controllers.Invokers
         {
             //Variables definition.
             commands = new Dictionary<string, ICommand>();
+            mutexes = new Mutexes();
         }
 
         public void SetClientHandler(IClientHandler clientHandler)
@@ -54,6 +59,11 @@ namespace GameServer.Controllers.Invokers
 
             //Load commands.
             SetCustomCommands();
+        }
+
+        public Mutexes GetMutexes()
+        {
+            return this.mutexes;
         }
 
         /// <summary>

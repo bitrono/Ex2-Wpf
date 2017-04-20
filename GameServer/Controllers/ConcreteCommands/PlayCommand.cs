@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
+using GameServer.Controllers.Servers;
 using GameServer.Models.Players;
 using GameServer.Models;
 using GameServer.Views.Handlers;
@@ -51,7 +52,7 @@ namespace GameServer.Controllers.ConcreteCommands
             {
                 return "Error: illegal move\n";
             }
-            
+
             //Set players.
             if (room.PlayerOne == client)
             {
@@ -63,8 +64,7 @@ namespace GameServer.Controllers.ConcreteCommands
             }
 
             //Sends the move to the rival.
-            rivalPlayer.StreamWriter.Write(move + '\n');
-            rivalPlayer.StreamWriter.Flush();
+            rivalPlayer.Send(move);
 
             return string.Empty;
         }

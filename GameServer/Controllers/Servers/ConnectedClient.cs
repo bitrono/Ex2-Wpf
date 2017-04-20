@@ -5,9 +5,10 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Controllers.Utilities;
 using GameServer.Models.Players;
 
-namespace GameServer.Views.Handlers
+namespace GameServer.Controllers.Servers
 {
     /// <summary>
     /// Holds the client that is connected to the game.
@@ -19,13 +20,14 @@ namespace GameServer.Views.Handlers
         /// </summary>
         /// <param name="tcpClient">A tcpClient.</param>
         /// <param name="streamWriter">A stream for writing.</param>
-        public ConnectedClient(TcpClient tcpClient, StreamWriter streamWriter)
+        public ConnectedClient(TcpClient tcpClient, StreamWriter streamWriter, Mutexes mutexes)
         {
             this.TcpClient = tcpClient;
             this.StreamWriter = streamWriter;
             this.IsMultiplayer = false;
             this.IsConnected = true;
             this.GameRoom = null;
+            this.Mutexes = mutexes;
         }
 
         /// <summary>
@@ -55,7 +57,23 @@ namespace GameServer.Views.Handlers
         /// <summary>
         /// Game room property.
         /// </summary>
-        /// <value>GameRoom</value>
+        /// <value>GameRoom.</value>
         public GameRoom GameRoom { get; set; }
+
+        /// <summary>
+        /// Mutexes property.
+        /// </summary>
+        /// <value>Mutexes.</value>
+        public Mutexes Mutexes { get; private set;}
+
+        /// <summary>
+        /// Sends a message to the client.
+        /// </summary>
+        /// <param name="message">Message</param>
+        public void Send(string message)
+        {
+            this.StreamWriter.Write(message + '\n');
+            this.StreamWriter.Flush();
+        }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MazeLib;
+using Newtonsoft.Json;
+using SearchAlgorithmsLib;
 
 namespace GameServer.Controllers.Utilities
 {
@@ -12,14 +15,44 @@ namespace GameServer.Controllers.Utilities
     static class Parser
     {
         /// <summary>
-        /// Replaces all the new line chars with a special char.
+        /// Converts the solution into Json format.
         /// </summary>
-        /// <param name="input">initial string</param>
-        /// <returns>parsed string</returns>
-        public static string ChangeNewLine(string input)
+        /// <param name="sol">The solution.</param>
+        /// <returns>Json of the solution.</returns>
+        static public string ToJson(Solution<Position> sol, string mazeName)
         {
-            //Replace all instances of '\n' with '@'.
-            return input.Replace('\n', '@');
+
+            StringBuilder directionSb = new StringBuilder();
+
+            foreach (State<Position> currPosition in sol.nodeList)
+            {
+                if (currPosition.cameFrom == null)
+                {
+                    break;
+                }
+                else if (currPosition.cameFrom.state.Col == currPosition.state.Col + 1)
+                {
+                    directionSb.Append((int)Direction.Right);
+                }
+                else if (currPosition.cameFrom.state.Col == currPosition.state.Col - 1)
+                {
+                    directionSb.Append((int)Direction.Left);
+                }
+                else if (currPosition.cameFrom.state.Row == currPosition.state.Row + 1)
+                {
+                    directionSb.Append((int)Direction.Up);
+                }
+                else if (currPosition.cameFrom.state.Row == currPosition.state.Row - 1)
+                {
+                    directionSb.Append((int)Direction.Down);
+                }
+            }
+
+            SolutionJson sj = new SolutionJson(mazeName, directionSb.ToString(),
+                sol.numOfNodesEvaluated.ToString());
+
+            return JsonConvert.SerializeObject(sj);
+
         }
     }
 }

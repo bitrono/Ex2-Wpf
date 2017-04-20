@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Controllers.Servers;
+using GameServer.Controllers.Utilities;
 using GameServer.Models;
 using GameServer.Models.Players;
 using GameServer.Views.Handlers;
@@ -21,7 +23,7 @@ namespace GameServer.Controllers.Invokers
         /// <param name="commandLine">command</param>
         /// <param name="client">connection to client</param>
         /// <returns>Result from the command</returns>
-       string ExecuteCommand(string commandLine, ConnectedClient client);
+        string ExecuteCommand(string commandLine, ConnectedClient client);
 
         /// <summary>
         /// Sets the View.
@@ -34,5 +36,11 @@ namespace GameServer.Controllers.Invokers
         /// </summary>
         /// <param name="model">Model</param>
         void SetModel(IModel model);
+
+        /// <summary>
+        /// Returns the sychronization controller.
+        /// </summary>
+        /// <returns>Mutexes</returns>
+        Mutexes GetMutexes();
     }
 }

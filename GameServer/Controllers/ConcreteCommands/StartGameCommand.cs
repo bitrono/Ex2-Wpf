@@ -5,9 +5,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
+using GameServer.Controllers.Servers;
 using GameServer.Models.Players;
 using GameServer.Models;
-using GameServer.Views.Handlers;
 using MazeLib;
 
 namespace GameServer.Controllers.ConcreteCommands
@@ -17,9 +17,8 @@ namespace GameServer.Controllers.ConcreteCommands
     /// </summary>
     public class StartGameCommand : ICommand
     {
-        private IModel model;
-        private Task task;
-
+        private readonly IModel model;
+       
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -40,7 +39,11 @@ namespace GameServer.Controllers.ConcreteCommands
             }
 
             string gameName = args[0];
+
+            //Create new room.
+            //client.Mutexes.LobbyMutex.WaitOne();
             GameRoom room = this.model.Storage.Lobby.CreateNewRoom(gameName);
+            //client.Mutexes.LobbyMutex.ReleaseMutex();
 
             //Check that the game doesn't exist.
             if (room == null)
@@ -54,6 +57,7 @@ namespace GameServer.Controllers.ConcreteCommands
             Maze maze = model.GenerateMaze(gameName, rows, cols);
 
             //Saves the maze in the started mazes storage.
+            client.Mutexes.MazesMutex.WaitOne();
             this.model.Storage.Mazes.StartedMazes.Add(maze.Name, maze);
 
             //Set the room maze.

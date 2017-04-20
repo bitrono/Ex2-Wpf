@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
+using GameServer.Controllers.Servers;
+using GameServer.Controllers.Utilities;
 using GameServer.Models;
 using GameServer.Views.Handlers;
 using MazeLib;
@@ -17,7 +19,7 @@ namespace GameServer.Controllers.ConcreteCommands
     /// </summary>
     public class SolveMazeCommand : ICommand
     {
-        private IModel model;
+        private readonly IModel model;
 
         /// <summary>
         /// Constructor.
@@ -30,7 +32,7 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
-           //Check that all the arguments were received.
+            //Check that all the arguments were received.
             if (args.Length != 2)
             {
                 return "Error: Parameters don't match the command.\n";
@@ -63,10 +65,16 @@ namespace GameServer.Controllers.ConcreteCommands
             //Try to solve the maze.
             try
             {
+                //Solve the maze.
+                //TODO not working fails at algorithmFactory create algorithm.
                 Solution<Position> solution =
-                    this.model.Solve(maze, algorithmType);
-                //TODO solutionInJsonFormat = solution.ToJson();
-                //TODO client.StreamWriter.Write(solutionInJsonFormat);
+                    this.model.Solve(maze, algorithmType + 1);
+                //Store the solution in the storage
+                //TODO add mutex
+                this.model.Storage.Mazes.SolvedMazes.Add(mazeName, solution);
+
+                //Convert solution to JSon format.
+                solutionInJsonFormat = Parser.ToJson(solution, mazeName);
             }
             catch (Exception e)
             {
@@ -74,8 +82,6 @@ namespace GameServer.Controllers.ConcreteCommands
             }
 
             return solutionInJsonFormat;
-
-            //return "Solved maze...";
         }
     }
 }

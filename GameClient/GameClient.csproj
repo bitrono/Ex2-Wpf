@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Listeners\IListener.cs" />
     <Compile Include="Listeners\UserListener.cs" />
-    <Compile Include="GameClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Listeners\ServerListener.cs" />

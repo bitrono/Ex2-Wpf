@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
+using GameServer.Controllers.Servers;
 using GameServer.Models;
 using GameServer.Models.Players;
 using GameServer.Views.Handlers;
@@ -62,9 +63,10 @@ namespace GameServer.Controllers.ConcreteCommands
             JObject emptyJObject = new JObject();
 
             //send empty JSon to player two to notify the game is closed.
-            rivalPlayer.StreamWriter.Write(emptyJObject.ToString() + '\n');
-            rivalPlayer.StreamWriter.Flush();
             rivalPlayer.IsConnected = false;
+            rivalPlayer.Send(emptyJObject.ToString());
+            //rivalPlayer.TcpClient.GetStream().Close();
+            //rivalPlayer.TcpClient.Close();
             client.IsConnected = false;
 
             return string.Empty;

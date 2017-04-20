@@ -57,33 +57,49 @@ namespace GameClient
                     try
                     {
                         string rawCommand = string.Empty;
+                        string readyCommand = string.Empty;
 
                         //Read all the data received from the server.
                         do
                         {
-                            rawCommand += reader.ReadLine();
-                            rawCommand += '\n';
+                            rawCommand = reader.ReadLine();
+
+                            //Check input is not null
+                            if (rawCommand != null)
+                            {
+                                readyCommand += rawCommand + '\n';
+                            }
                         } while (reader.Peek() > 0);
 
-                        Command = rawCommand;
 
+                        Command = readyCommand;
+
+                        //Check if close command was received.
                         if (Command == "{}\n")
                         {
                             Command = "Game closed";
                             //userListener.Stop();
+                            IsMultiplayer = false;
+                            isConnected = false;
+                            client.GetStream().Close();
+                            client.Close();
+                        }
+
+                        //Check if action was legal.
+                        if (Command.Split(' ')[0] == "Error:")
+                        {
                             Continue = false;
                             IsMultiplayer = false;
                             isConnected = false;
                             client.Close();
                         }
 
-                        if (Command != "\n")
+                        if (Command != string.Empty)
                         {
                             Console.WriteLine("Result:\n{0}", Command);
                             Command = string.Empty;
                         }
-                      
-
+                        
                         if (!IsMultiplayer)
                         {
                             Continue = false;
