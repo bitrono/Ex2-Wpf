@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
@@ -18,7 +19,9 @@ namespace GameServer.Controllers.ConcreteCommands
     public class StartGameCommand : ICommand
     {
         private readonly IModel model;
-       
+        private readonly Mutex roomMutex;
+        private readonly Mutex startedMazesMutex;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -26,12 +29,14 @@ namespace GameServer.Controllers.ConcreteCommands
         public StartGameCommand(IModel model)
         {
             this.model = model;
+            this.roomMutex = new Mutex();
+            this.startedMazesMutex = new Mutex();
         }
 
         public string Execute(string[] args, ConnectedClient client)
         {
-           //TODO close both the gameRoom and delete the maze and solution on close command
-           
+            //TODO close both the gameRoom and delete the maze and solution on close command
+
             //Check the number of parameters received is correct.
             if (args.Length != 3)
             {
@@ -41,9 +46,9 @@ namespace GameServer.Controllers.ConcreteCommands
             string gameName = args[0];
 
             //Create new room.
-            //client.Mutexes.LobbyMutex.WaitOne();
+            this.roomMutex.WaitOne();
             GameRoom room = this.model.Storage.Lobby.CreateNewRoom(gameName);
-            //client.Mutexes.LobbyMutex.ReleaseMutex();
+            this.roomMutex.ReleaseMutex();
 
             //Check that the game doesn't exist.
             if (room == null)
@@ -51,14 +56,15 @@ namespace GameServer.Controllers.ConcreteCommands
                 return ("Error: game already exists.\n");
             }
 
-           //Creates the requested maze.
+            //Creates the requested maze.
             int rows = int.Parse(args[1]);
             int cols = int.Parse(args[2]);
             Maze maze = model.GenerateMaze(gameName, rows, cols);
 
             //Saves the maze in the started mazes storage.
-            client.Mutexes.MazesMutex.WaitOne();
+            this.startedMazesMutex.WaitOne();
             this.model.Storage.Mazes.StartedMazes.Add(maze.Name, maze);
+            this.startedMazesMutex.ReleaseMutex();
 
             //Set the room maze.
             room.Maze = maze;
@@ -71,16 +77,14 @@ namespace GameServer.Controllers.ConcreteCommands
             //Waits for the second player to join the game.
             while (!room.IsGameReady)
             {
-                continue;
+                //TODO maybe user observer instead.
+                Thread.Sleep(250);
             }
 
             //Sends the maze to the client.
             string mazeInJsonFormat = maze.ToJSON();
 
             return mazeInJsonFormat;
-
-            //client.StreamWriter.Write(mazeInJsonFormat);
-            //client.StreamWriter.Flush();
         }
     }
 }

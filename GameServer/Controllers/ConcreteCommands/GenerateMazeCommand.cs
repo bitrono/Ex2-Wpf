@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
@@ -18,6 +19,7 @@ namespace GameServer.Controllers.ConcreteCommands
     public class GenerateMazeCommand : ICommand
     {
         private IModel model;
+        private Mutex generatedMazesMutex;
 
         /// <summary>
         /// Constructor.
@@ -26,6 +28,7 @@ namespace GameServer.Controllers.ConcreteCommands
         public GenerateMazeCommand(IModel model)
         {
             this.model = model;
+            this.generatedMazesMutex = new Mutex();
         }
 
         public string Execute(string[] args, ConnectedClient client)
@@ -37,6 +40,8 @@ namespace GameServer.Controllers.ConcreteCommands
             }
 
             string name = args[0];
+
+            this.generatedMazesMutex.WaitOne();
 
             //Check if the maze already exists in the storage of generated mazes.
             if (this.model.Storage.Mazes.GeneratedMazes.ContainsKey(name))
@@ -50,14 +55,13 @@ namespace GameServer.Controllers.ConcreteCommands
             Maze maze = model.GenerateMaze(name, rows, cols);
 
             //Saves the maze in the storage.
+           
             this.model.Storage.Mazes.GeneratedMazes.Add(maze.Name, maze);
-
+            this.generatedMazesMutex.ReleaseMutex();
+           
             //Converts the maze to JSon format.
             string mazeInJsonFormat = maze.ToJSON();
-            //client.StreamWriter.Write(mazeInJsonFormat);
-            //client.StreamWriter.Flush();
-
-
+           
             //If the client is not in a multiplayer game, close the connection.
             if (!client.IsMultiplayer)
             {

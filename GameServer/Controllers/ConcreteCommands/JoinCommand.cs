@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
@@ -19,6 +20,7 @@ namespace GameServer.Controllers.ConcreteCommands
     public class JoinCommand : ICommand
     {
         private IModel model;
+        private Mutex joinMutex;
 
         /// <summary>
         /// Constructor.
@@ -27,6 +29,7 @@ namespace GameServer.Controllers.ConcreteCommands
         public JoinCommand(IModel model)
         {
             this.model = model;
+            this.joinMutex = new Mutex();
         }
 
         public string Execute(string[] args, ConnectedClient client)
@@ -38,6 +41,9 @@ namespace GameServer.Controllers.ConcreteCommands
                 return "Error: wrong parameters.\n";
             }
             string gameName = args[0];
+
+            //Lock join.
+            this.joinMutex.WaitOne();
 
             //Search for the game.
             GameRoom room = this.model.Storage.Lobby.SearchGameRoom(args[0]);
@@ -59,6 +65,9 @@ namespace GameServer.Controllers.ConcreteCommands
             {
                 return "Error: you can't play against yourself.\n";
             }
+
+            //Release lock.
+            this.joinMutex.ReleaseMutex();
 
             //Set the second player in the game.
             room.PlayerTwo = client;

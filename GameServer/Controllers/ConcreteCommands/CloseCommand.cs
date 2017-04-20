@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
@@ -20,6 +21,7 @@ namespace GameServer.Controllers.ConcreteCommands
     public class CloseCommand : ICommand
     {
         private IModel model;
+        private Mutex closeMutex;
 
         /// <summary>
         /// Constructor.
@@ -28,10 +30,20 @@ namespace GameServer.Controllers.ConcreteCommands
         public CloseCommand(IModel model)
         {
             this.model = model;
+            this.closeMutex = new Mutex();
         }
 
         public string Execute(string[] args, ConnectedClient client)
         {
+            //Lock close.
+            this.closeMutex.WaitOne();
+
+            //Check if room wasn't closed already.
+            if (!client.IsConnected)
+            {
+                return string.Empty;
+            }
+
             //Get the game room members.
             GameRoom room = client.GameRoom;
             ConnectedClient rivalPlayer;
@@ -68,6 +80,9 @@ namespace GameServer.Controllers.ConcreteCommands
             //rivalPlayer.TcpClient.GetStream().Close();
             //rivalPlayer.TcpClient.Close();
             client.IsConnected = false;
+
+            //Release close.
+            this.closeMutex.ReleaseMutex();
 
             return string.Empty;
         }

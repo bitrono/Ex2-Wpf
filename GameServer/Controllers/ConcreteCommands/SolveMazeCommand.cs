@@ -28,6 +28,7 @@ namespace GameServer.Controllers.ConcreteCommands
         public SolveMazeCommand(IModel model)
         {
             this.model = model;
+            //TODO add mutexes
         }
 
         public string Execute(string[] args, ConnectedClient client)
@@ -71,7 +72,9 @@ namespace GameServer.Controllers.ConcreteCommands
                     this.model.Solve(maze, algorithmType + 1);
                 //Store the solution in the storage
                 //TODO add mutex
+                client.Mutexes.MazesMutex.WaitOne();
                 this.model.Storage.Mazes.SolvedMazes.Add(mazeName, solution);
+                client.Mutexes.MazesMutex.ReleaseMutex();
 
                 //Convert solution to JSon format.
                 solutionInJsonFormat = Parser.ToJson(solution, mazeName);

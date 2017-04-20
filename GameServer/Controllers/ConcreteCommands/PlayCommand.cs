@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
@@ -19,6 +20,7 @@ namespace GameServer.Controllers.ConcreteCommands
     {
         private IModel model;
         private IList<string> legalMoves;
+        private Mutex moveMutex;
 
         /// <summary>
         /// Constructor.
@@ -28,6 +30,7 @@ namespace GameServer.Controllers.ConcreteCommands
         {
             this.model = model;
             legalMoves = new List<string>();
+            this.moveMutex = new Mutex();
 
             //Initializes the legal moves.
             AddLegalMoves();
@@ -64,7 +67,9 @@ namespace GameServer.Controllers.ConcreteCommands
             }
 
             //Sends the move to the rival.
+            this.moveMutex.WaitOne();
             rivalPlayer.Send(move);
+            this.moveMutex.ReleaseMutex();
 
             return string.Empty;
         }
