@@ -19,8 +19,8 @@ namespace GameServer.Controllers.ConcreteCommands
     /// </summary>
     public class JoinCommand : ICommand
     {
-        private IModel model;
-        private Mutex joinMutex;
+        private readonly IModel model;
+        private readonly Mutex joinMutex;
 
         /// <summary>
         /// Constructor.
@@ -46,23 +46,29 @@ namespace GameServer.Controllers.ConcreteCommands
             this.joinMutex.WaitOne();
 
             //Search for the game.
-            GameRoom room = this.model.Storage.Lobby.SearchGameRoom(args[0]);
+            GameRoom room = this.model.Storage.Lobby.SearchGameRoom(gameName);
 
             //Check if room exists.
             if (room == null)
             {
+                //Release lock.
+                this.joinMutex.ReleaseMutex();
                 return "Error: game doesn't exist.\n";
             }
 
             //Check if the room is available (not taken by other players).
             if (!room.IsGameAvailable)
             {
+                //Release lock.
+                this.joinMutex.ReleaseMutex();
                 return "Error: game is already taken.\n";
             }
 
             //Check if the client is trying to play against himself.
             if (room.PlayerOne == client)
             {
+                //Release lock.
+                this.joinMutex.ReleaseMutex();
                 return "Error: you can't play against yourself.\n";
             }
 

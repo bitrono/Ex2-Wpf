@@ -14,26 +14,28 @@ namespace GameClient
 {
     class Program
     {
-        //TODO make a dictionary of commands of some sort, maybe to Game class
-
+        /// <summary>
+        /// Main method.
+        /// </summary>
+        /// <param name="args">Command line args.</param>
         static void Main(string[] args)
         {
+            //End point initialization.
             int port = int.Parse(ConfigurationManager.AppSettings["port"]);
             string ip = ConfigurationManager.AppSettings["ip"];
             IPEndPoint endPoint =
                 new IPEndPoint(IPAddress.Parse(ip), port);
 
+            //Vatiables declaration.
             TcpClient tcpClient = null;
             NetworkStream stream = null;
             StreamReader reader = null;
             StreamWriter writer = null;
-            ServerListener serverListener = null;
+            IListener serverListener = null;
             bool isMultiplayer = false;
             bool isConnected = false;
 
-
-            //tcpClient.Connect(ep);
-
+            //Loop while client is on.
             while (true)
             {
                 string command = string.Empty;
@@ -42,23 +44,25 @@ namespace GameClient
 
                 command = Console.ReadLine();
 
+                //If not connected, Initialize connection.
                 if (!isConnected || serverListener.IsMultiplayer == false)
                 {
                     tcpClient = new TcpClient();
-                    //TODO dispose streams
                     tcpClient.Connect(endPoint);
                     stream = tcpClient.GetStream();
                     writer = new StreamWriter(stream);
                     reader = new StreamReader(stream);
-
                     isConnected = true;
                     serverListener = new ServerListener(tcpClient, reader);
-                    serverListener.StartListening();
+
                     //start listener
+                    serverListener.StartListening();
                 }
 
+                //Communicate with server.
                 try
                 {
+                    //Check if the connection needs to remain open.
                     if (command.Split(' ')[0] == "start" ||
                         command.Split(' ')[0] == "join")
                     {
@@ -66,17 +70,17 @@ namespace GameClient
                         serverListener.IsMultiplayer = true;
                     }
 
+                    //Send message to server.
                     writer.Write(command + '\n');
                     writer.Flush();
 
-
+                    //Check if connection can be closed.
                     if (!isMultiplayer || command == "close")
                     {
-                        //TODO might need to close stream, and also dispose
-                        //serverListener.Continue = false;
                         isMultiplayer = false;
                         serverListener.IsMultiplayer = false;
 
+                        //Wait for listener to end.
                         serverListener.WaitForTask();
                         stream.Close();
                         tcpClient.Close();
@@ -91,49 +95,3 @@ namespace GameClient
         }
     }
 }
-
-
-/*static void Main(string[] args)
-        {
-            int port = int.Parse(ConfigurationManager.AppSettings["port"]);
-            string ip = ConfigurationManager.AppSettings["ip"];
-            IPEndPoint ep =
-                new IPEndPoint(IPAddress.Parse(ip), port);
-            UserListener userListener;
-            IListener serverListener;
-
-            while (true)
-            {
-                TcpClient client = new TcpClient();
-
-                client.Connect(ep);
-
-                using (NetworkStream stream = client.GetStream())
-                using (StreamReader reader = new StreamReader(stream))
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    userListener = new UserListener(client, writer);
-                    serverListener = new ServerListener(client, reader, userListener);
-                    
-
-                    //Start listening for server input.
-                    serverListener.StartListening();
-
-                    //Start listening for user input.
-                    //TODO maybe open a task for userListener as well
-                    userListener.StartListening();
-
-                    //Wait for user to end connection.
-                    userListener.WaitForTask();
-
-                    //Stop listening.
-                    serverListener.Stop();
-                    serverListener.WaitForTask();
-
-                    //Close connection.
-                    stream.Close();
-                    client.Close();
-                }
-            }
-        }
-*/

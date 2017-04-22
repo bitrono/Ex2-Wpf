@@ -25,10 +25,7 @@ namespace GameServer.Controllers.Invokers
         /// </summary>
         private Dictionary<string, ICommand> commands;
 
-        private Mutexes mutexes;
-
-        //TODO delete if not needed.
-        /// <summary>
+      /// <summary>
         /// Reference to the client handler.
         /// </summary>
         private IClientHandler clientHandler;
@@ -45,8 +42,7 @@ namespace GameServer.Controllers.Invokers
         {
             //Variables definition.
             commands = new Dictionary<string, ICommand>();
-            mutexes = new Mutexes();
-        }
+            }
 
         public void SetClientHandler(IClientHandler clientHandler)
         {
@@ -61,12 +57,7 @@ namespace GameServer.Controllers.Invokers
             SetCustomCommands();
         }
 
-        public Mutexes GetMutexes()
-        {
-            return this.mutexes;
-        }
-
-        /// <summary>
+       /// <summary>
         /// Sets custom commands.
         /// </summary>
         private void SetCustomCommands()

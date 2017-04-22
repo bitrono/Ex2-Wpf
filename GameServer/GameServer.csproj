@@ -65,7 +65,6 @@
     <Compile Include="Controllers\Utilities\SolutionJson.cs" />
     <Compile Include="Models\Mazes.cs" />
     <Compile Include="Models\Players\Lobby.cs" />
-    <Compile Include="Models\Players\Player.cs" />
     <Compile Include="Models\Players\GameRoom.cs" />
     <Compile Include="Controllers\ConcreteCommands\CloseCommand.cs" />
     <Compile Include="Controllers\ConcreteCommands\JoinCommand.cs" />

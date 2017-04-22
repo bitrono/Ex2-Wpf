@@ -11,18 +11,47 @@ using GameClient.Listeners;
 
 namespace GameClient
 {
-    public class ServerListener
+    public class ServerListener : IListener
 
     {
+        /// <summary>
+        /// Tcp client.
+        /// </summary>
         private TcpClient client;
+
+        /// <summary>
+        /// Stream reader.
+        /// </summary>
         private StreamReader reader;
+
+        /// <summary>
+        /// Thread to run.
+        /// </summary>
         private Task readTask;
-        private UserListener userListener;
+
+        /// <summary>
+        /// Bool to check if connection is on.
+        /// </summary>
         private bool isConnected;
 
+        /// <summary>
+        /// Bool to check if to continue listening.
+        /// </summary>
         private bool Continue { get; set; }
+
+        /// <summary>
+        /// Bool to check if is a multiplayer connection.
+        /// </summary>
         public bool IsMultiplayer { get; set; }
+
+        /// <summary>
+        /// Bool check if message
+        /// </summary>
         private bool IsRead { get; set; }
+
+        /// <summary>
+        /// Command string from user.
+        /// </summary>
         public string Command { get; private set; }
 
         /// <summary>
@@ -37,7 +66,6 @@ namespace GameClient
             this.Continue = true;
             this.IsRead = false;
             this.IsMultiplayer = false;
-//            this.isConnected = isConnected;
         }
 
         /// <summary>
@@ -47,13 +75,12 @@ namespace GameClient
         {
             Continue = true;
 
+            //Task to execute.
             this.readTask = new Task(() =>
             {
+                //Loop while Main allows.
                 while (Continue)
                 {
-                    //this.Continue = true;
-                    //this.IsRead = false;
-
                     try
                     {
                         string rawCommand = string.Empty;
@@ -78,7 +105,6 @@ namespace GameClient
                         if (Command == "{}\n")
                         {
                             Command = "Game closed";
-                            //userListener.Stop();
                             IsMultiplayer = false;
                             isConnected = false;
                             client.GetStream().Close();
@@ -94,12 +120,14 @@ namespace GameClient
                             client.Close();
                         }
 
+                        //Print input if not empty.
                         if (Command != string.Empty)
                         {
                             Console.WriteLine("Result:\n{0}", Command);
                             Command = string.Empty;
                         }
-                        
+
+                        //If not a multiplayer game, stop the task.
                         if (!IsMultiplayer)
                         {
                             Continue = false;
@@ -113,14 +141,21 @@ namespace GameClient
                 }
             });
 
+            //Start task.
             this.readTask.Start();
         }
 
+        /// <summary>
+        /// Waits for the task to stop.
+        /// </summary>
         public void WaitForTask()
         {
             this.readTask.Wait();
         }
 
+        /// <summary>
+        /// Stops the task.
+        /// </summary>
         public void Stop()
         {
             Continue = false;

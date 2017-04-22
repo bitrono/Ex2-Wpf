@@ -20,7 +20,7 @@ namespace GameServer.Controllers.ConcreteCommands
     /// </summary>
     public class ListCommand : ICommand
     {
-        private IModel model;
+        private readonly IModel model;
 
         /// <summary>
         /// Constructor.
@@ -33,29 +33,26 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
-            string listOfGames = "Rooms:";
             string parsedList = string.Empty;
 
-            Dictionary<string, GameRoom> gameRooms = this.model.Storage.Lobby.GameRooms;
-
-            //string listInJsonFormat = JsonConvert.SerializeObject(gameRooms);
+            Dictionary<string, GameRoom> gameRooms =
+                this.model.Storage.Lobby.GameRooms;
 
             //Holds the names of the availiable games/
             IList<string> gamesList = new List<string>();
-            
+
             //Add all the availiable games to the games names list.
-            foreach (KeyValuePair<string,GameRoom> room in gameRooms)
+            foreach (KeyValuePair<string, GameRoom> room in gameRooms)
             {
                 if (room.Value.IsGameAvailable)
                 {
                     gamesList.Add(room.Value.Name);
-//                    listOfGames += "\n";
-//                    listOfGames += room.Value.Name;
                 }
             }
 
             //Convert the games names list to JSon array.
-            string gamesListInJsonFormat = JsonConvert.SerializeObject(gamesList);
+            string gamesListInJsonFormat =
+                JsonConvert.SerializeObject(gamesList);
 
             //client.StreamWriter.Write(gamesListInJsonFormat);
 
@@ -64,8 +61,6 @@ namespace GameServer.Controllers.ConcreteCommands
             {
                 client.IsConnected = false;
             }
-
-            //parsedList = Parser.ChangeNewLine(listOfGames);
 
             return gamesListInJsonFormat;
         }

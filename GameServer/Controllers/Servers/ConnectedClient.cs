@@ -20,14 +20,13 @@ namespace GameServer.Controllers.Servers
         /// </summary>
         /// <param name="tcpClient">A tcpClient.</param>
         /// <param name="streamWriter">A stream for writing.</param>
-        public ConnectedClient(TcpClient tcpClient, StreamWriter streamWriter, Mutexes mutexes)
+        public ConnectedClient(TcpClient tcpClient, StreamWriter streamWriter)
         {
             this.TcpClient = tcpClient;
             this.StreamWriter = streamWriter;
             this.IsMultiplayer = false;
             this.IsConnected = true;
             this.GameRoom = null;
-            this.Mutexes = mutexes;
         }
 
         /// <summary>
@@ -59,12 +58,6 @@ namespace GameServer.Controllers.Servers
         /// </summary>
         /// <value>GameRoom.</value>
         public GameRoom GameRoom { get; set; }
-
-        /// <summary>
-        /// Mutexes property.
-        /// </summary>
-        /// <value>Mutexes.</value>
-        public Mutexes Mutexes { get; private set;}
 
         /// <summary>
         /// Sends a message to the client.

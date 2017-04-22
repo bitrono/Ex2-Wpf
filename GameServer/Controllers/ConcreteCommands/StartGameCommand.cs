@@ -35,8 +35,6 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
-            //TODO close both the gameRoom and delete the maze and solution on close command
-
             //Check the number of parameters received is correct.
             if (args.Length != 3)
             {
@@ -73,11 +71,9 @@ namespace GameServer.Controllers.ConcreteCommands
             client.IsMultiplayer = true;
             client.GameRoom = room;
 
-            //TODO note that the message appears at the client after the "Enter command", make it go before
             //Waits for the second player to join the game.
             while (!room.IsGameReady)
             {
-                //TODO maybe user observer instead.
                 Thread.Sleep(250);
             }
 

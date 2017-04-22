@@ -18,38 +18,14 @@ namespace GameServer.Models.Players
         public Lobby()
         {
             //TODO delete players if not needed. or rename ConnectedClient to Players
-            this.Players = new List<Player>();
-            this.GameRooms =new Dictionary<string, GameRoom>();
+            this.GameRooms = new Dictionary<string, GameRoom>();
         }
-
-        /// <summary>
-        /// Players property.
-        /// </summary>
-        /// TODO delete if not needed
-        public IList<Player> Players { get; set; }
 
         /// <summary>
         /// Game rooms property.
         /// </summary>
         /// <value>Dictionary</value>
         public Dictionary<string, GameRoom> GameRooms { get; private set; }
-
-        /// <summary>
-        ///Inserts a new player to the list.
-        /// </summary>
-        /// <param name="tcpClient">TcpClient</param>
-        /// <returns>New Player</returns>
-        public Player InsertNewPlayer(TcpClient tcpClient)
-        {
-            //TODO delete this method if not needed
-            //TODO check if player does'nt exist already, and also remove him when he finishes the game
-
-            Player newClient = new Player(tcpClient);
-
-            Players.Add(newClient);
-
-            return newClient;
-        }
 
         /// <summary>
         /// Adds a new game room to the storage.
@@ -66,7 +42,7 @@ namespace GameServer.Models.Players
 
             //Create a new game room.
             GameRoom newRoom = new GameRoom(name);
-            
+
             //Add the new room to the dictionary.
             this.GameRooms.Add(name, newRoom);
 
@@ -92,7 +68,6 @@ namespace GameServer.Models.Players
             gameRoom = GameRooms[name];
 
             return gameRoom;
-
         }
 
         /// <summary>

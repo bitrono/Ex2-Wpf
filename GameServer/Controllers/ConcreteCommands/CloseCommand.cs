@@ -20,8 +20,8 @@ namespace GameServer.Controllers.ConcreteCommands
     /// </summary>
     public class CloseCommand : ICommand
     {
-        private IModel model;
-        private Mutex closeMutex;
+        private readonly IModel model;
+        private readonly Mutex closeMutex;
 
         /// <summary>
         /// Constructor.
@@ -35,12 +35,20 @@ namespace GameServer.Controllers.ConcreteCommands
 
         public string Execute(string[] args, ConnectedClient client)
         {
+            //Check the number of parameters received is correct.
+            if (args.Length != 1)
+            {
+                return "Error: wrong parameters.\n";
+            }
+
             //Lock close.
             this.closeMutex.WaitOne();
 
             //Check if room wasn't closed already.
             if (!client.IsConnected)
             {
+                //Lock close.
+                this.closeMutex.WaitOne();
                 return string.Empty;
             }
 
@@ -77,8 +85,6 @@ namespace GameServer.Controllers.ConcreteCommands
             //send empty JSon to player two to notify the game is closed.
             rivalPlayer.IsConnected = false;
             rivalPlayer.Send(emptyJObject.ToString());
-            //rivalPlayer.TcpClient.GetStream().Close();
-            //rivalPlayer.TcpClient.Close();
             client.IsConnected = false;
 
             //Release close.

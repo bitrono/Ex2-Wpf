@@ -36,11 +36,5 @@ namespace GameServer.Controllers.Invokers
         /// </summary>
         /// <param name="model">Model</param>
         void SetModel(IModel model);
-
-        /// <summary>
-        /// Returns the sychronization controller.
-        /// </summary>
-        /// <returns>Mutexes</returns>
-        Mutexes GetMutexes();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 using GameServer.Controllers.AbstractCommands;
@@ -21,6 +22,7 @@ namespace GameServer.Controllers.ConcreteCommands
     public class SolveMazeCommand : ICommand
     {
         private readonly IModel model;
+        private readonly Mutex solvedMutex;
 
         /// <summary>
         /// Constructor.
@@ -29,7 +31,7 @@ namespace GameServer.Controllers.ConcreteCommands
         public SolveMazeCommand(IModel model)
         {
             this.model = model;
-            //TODO add mutexes
+            this.solvedMutex = new Mutex();
         }
 
         public string Execute(string[] args, ConnectedClient client)
@@ -62,7 +64,7 @@ namespace GameServer.Controllers.ConcreteCommands
             }
 
             //Holds the solution in JSon format.
-            string solutionInJsonFormat = string.Empty;
+            string solutionInJsonFormat;
 
             //Search for existing solution.
             Solution<Position> solution =
@@ -76,18 +78,14 @@ namespace GameServer.Controllers.ConcreteCommands
 
             else
             {
-                //Try to solve the maze.
-
                 //Solve the maze.
-                //TODO not working fails at algorithmFactory create algorithm.
                 solution =
                     this.model.Solve(maze, algorithmType);
                 //Store the solution in the storage
-                //TODO add mutex
-                // client.Mutexes.MazesMutex.WaitOne();
+                this.solvedMutex.WaitOne();
                 this.model.Storage.Mazes.SolvedMazes
                     .Add(mazeName, solution);
-                // client.Mutexes.MazesMutex.ReleaseMutex();
+                this.solvedMutex.ReleaseMutex();
 
                 //Convert solution to JSon format.
                 solutionInJsonFormat = Parser.ToJson(solution, mazeName);

@@ -25,5 +25,10 @@ namespace GameClient.Listeners
         /// Stops the listener.
         /// </summary>
         void Stop();
+
+        /// <summary>
+        /// Bool to check if is a multiplayer connection.
+        /// </summary>
+        bool IsMultiplayer { get; set; }
     }
 }

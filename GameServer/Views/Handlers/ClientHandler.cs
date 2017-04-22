@@ -12,6 +12,9 @@ using GameServer.Controllers.Servers;
 
 namespace GameServer.Views.Handlers
 {
+    /// <summary>
+    /// Handles basic client requests.
+    /// </summary>
     public class ClientHandler : IClientHandler
     {
         /// <summary>
@@ -24,11 +27,6 @@ namespace GameServer.Views.Handlers
         /// </summary>
         private string commandLine;
 
-        //TODO delete these if not needed
-        //private bool Continue { get; set; }
-        //TODO delete these if not needed
-        //private bool MultiplayerOn { get; set; }
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -40,10 +38,6 @@ namespace GameServer.Views.Handlers
 
         public void HandleClient(TcpClient client)
         {
-            //TODO delete these if not needed
-            //this.Continue = true;
-            //this.MultiplayerOn = false;
-
             //Starts the client handler task.
             new Task(() =>
             {
@@ -54,8 +48,7 @@ namespace GameServer.Views.Handlers
                 {
                     //Contains the connected client data.
                     ConnectedClient connectedClient =
-                        new ConnectedClient(client, writer,
-                            this.controller.GetMutexes());
+                        new ConnectedClient(client, writer);
 
                     //Loop while the client is connected.
                     while (connectedClient.IsConnected)
@@ -67,11 +60,6 @@ namespace GameServer.Views.Handlers
                                 "Waiting for command");
                             commandLine = reader.ReadLine();
 
-                            //TODO wrong way to handle find another way
-                            //                        if (commandLine == null)
-                            //                        {
-                            //                            continue;
-                            //                        }
                             Console.WriteLine("Got command: {0}", commandLine);
                             string result =
                                 controller.ExecuteCommand(commandLine,

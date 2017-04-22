@@ -18,8 +18,8 @@ namespace GameServer.Controllers.ConcreteCommands
     /// </summary>
     public class GenerateMazeCommand : ICommand
     {
-        private IModel model;
-        private Mutex generatedMazesMutex;
+        private readonly IModel model;
+        private readonly Mutex generatedMazesMutex;
 
         /// <summary>
         /// Constructor.
@@ -41,9 +41,7 @@ namespace GameServer.Controllers.ConcreteCommands
 
             string name = args[0];
 
-            this.generatedMazesMutex.WaitOne();
-
-            //Check if the maze already exists in the storage of generated mazes.
+           //Check if the maze already exists in the storage of generated mazes.
             if (this.model.Storage.Mazes.GeneratedMazes.ContainsKey(name))
             {
                 return $"Error: Maze {name} already exists.\n";
@@ -55,7 +53,7 @@ namespace GameServer.Controllers.ConcreteCommands
             Maze maze = model.GenerateMaze(name, rows, cols);
 
             //Saves the maze in the storage.
-           
+            this.generatedMazesMutex.WaitOne();
             this.model.Storage.Mazes.GeneratedMazes.Add(maze.Name, maze);
             this.generatedMazesMutex.ReleaseMutex();
            
