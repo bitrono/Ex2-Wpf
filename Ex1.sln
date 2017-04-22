@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServer", "GameServer\Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameClient", "GameClient\GameClient.csproj", "{6B138890-E036-4EEE-80C1-0477E02A4DA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchAlgorithmsLib", "SearchAlgorithmsLib\SearchAlgorithmsLib.csproj", "{E8871F65-394B-4906-9BFF-C6FBBA8940A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6B138890-E036-4EEE-80C1-0477E02A4DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B138890-E036-4EEE-80C1-0477E02A4DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B138890-E036-4EEE-80C1-0477E02A4DA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8871F65-394B-4906-9BFF-C6FBBA8940A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8871F65-394B-4906-9BFF-C6FBBA8940A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8871F65-394B-4906-9BFF-C6FBBA8940A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8871F65-394B-4906-9BFF-C6FBBA8940A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

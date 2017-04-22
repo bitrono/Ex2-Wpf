@@ -52,22 +52,22 @@ namespace GameServer.Models
         public AlgorithmFactory<Position>
             AlgorithmFac { get; }
 
+        /// <summary>
+        /// Creates a maze according to row and colom size, and solves the maze using the 
+        /// relevant algorithm.
+        /// </summary>
+        /// <param name="row">Num of rows.</param>
+        /// <param name="colom">Num of coloms.</param>
+        /// <param name="algorithmId">The id of the relevant algorithm to run.</param>
+        /// <returns>The solution to the algorithm. </returns>
         public Solution<Position> Solve(Maze maze, int algorithmId)
         {
-            //Solves the maze.
+
             StatePool<Position> sp = new StatePool<Position>();
+            Adapter ad = new Adapter(maze, sp);
+            ISearcher<Position> algorithm = this.AlgorithmFac.CreateAlgorithm(algorithmId);
+            return algorithm.Search(ad);
 
-            //Solution adapter.
-            Adapter ad = new Adapter(maze.Rows, maze.Cols, maze.InitialPos.Row,
-                maze.InitialPos.Col, maze.GoalPos.Row, maze.GoalPos.Col,
-                maze.Name, sp);
-
-            //Generates an algorithm to solve the maze.
-            ISearcher<Position> algorithm =
-                this.AlgorithmFac.CreateAlgorithm(algorithmId);
-
-            //Returns a maze solution.
-            return algorithm.search(ad);
         }
 
         public Maze GenerateMaze(string name, int rows, int cols)

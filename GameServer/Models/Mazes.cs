@@ -92,5 +92,27 @@ namespace GameServer.Models
 
             return maze;
         }
+
+        /// <summary>
+        /// Searches for a solved maze in the storage.
+        /// </summary>
+        /// <param name="name">Solution name</param>
+        /// <returns>Solution if exists, else null</returns>
+        public Solution<Position> SearchSolvedMaze(string name)
+        {
+            Solution<Position> solution;
+
+            //Check if a solution with the given name exists in the dictionary.
+            if (!SolvedMazes.ContainsKey(name))
+            {
+                solution = null;
+            }
+            else
+            {
+                solution = SolvedMazes[name];
+            }
+
+            return solution;
+        }
     }
 }

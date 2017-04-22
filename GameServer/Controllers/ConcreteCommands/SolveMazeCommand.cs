@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
 using GameServer.Controllers.Utilities;
@@ -63,25 +64,33 @@ namespace GameServer.Controllers.ConcreteCommands
             //Holds the solution in JSon format.
             string solutionInJsonFormat = string.Empty;
 
-            //Try to solve the maze.
-            try
+            //Search for existing solution.
+            Solution<Position> solution =
+                this.model.Storage.Mazes.SearchSolvedMaze(mazeName);
+
+            //Check if solution was found.
+            if (solution != null)
             {
+                solutionInJsonFormat = Parser.ToJson(solution, mazeName);
+            }
+
+            else
+            {
+                //Try to solve the maze.
+
                 //Solve the maze.
                 //TODO not working fails at algorithmFactory create algorithm.
-                Solution<Position> solution =
-                    this.model.Solve(maze, algorithmType + 1);
+                solution =
+                    this.model.Solve(maze, algorithmType);
                 //Store the solution in the storage
                 //TODO add mutex
-                client.Mutexes.MazesMutex.WaitOne();
-                this.model.Storage.Mazes.SolvedMazes.Add(mazeName, solution);
-                client.Mutexes.MazesMutex.ReleaseMutex();
+                // client.Mutexes.MazesMutex.WaitOne();
+                this.model.Storage.Mazes.SolvedMazes
+                    .Add(mazeName, solution);
+                // client.Mutexes.MazesMutex.ReleaseMutex();
 
                 //Convert solution to JSon format.
                 solutionInJsonFormat = Parser.ToJson(solution, mazeName);
-            }
-            catch (Exception e)
-            {
-                return "Error: Algorithm type doesn't exist.\n";
             }
 
             return solutionInJsonFormat;

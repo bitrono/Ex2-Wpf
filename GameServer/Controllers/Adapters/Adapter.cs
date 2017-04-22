@@ -55,7 +55,7 @@ namespace GameServer.Controllers.Adapters
         /// Returns the inital state.
         /// </summary>
         /// <returns>position of initial state.</returns>
-        public State<Position> getInitialState()
+        public State<Position> GetInitialState()
         {
             return new State<Position>(this.maze.InitialPos);
         }
@@ -64,7 +64,7 @@ namespace GameServer.Controllers.Adapters
         /// Returns the goal state.
         /// </summary>
         /// <returns>position of goal state.</returns>
-        public State<Position> getGoalState()
+        public State<Position> GetGoalState()
         {
             return new State<Position>(this.maze.GoalPos);
         }
@@ -74,7 +74,7 @@ namespace GameServer.Controllers.Adapters
         /// </summary>
         /// <param name="s">Position current state.</param>
         /// <returns>States relative to s.</returns>
-        public List<State<Position>> getAllPossibleStates(State<Position> s)
+        public List<State<Position>> GetAllPossibleStates(State<Position> s)
         {
             List<State<Position>> positionList = new List<State<Position>>();
 
@@ -83,32 +83,32 @@ namespace GameServer.Controllers.Adapters
                 this.maze[s.state.Row, s.state.Col - 1] == CellType.Free)
             {
                 Position tempPos = new Position(s.state.Row, s.state.Col - 1);
-                this.statePool.addToStatePool(tempPos);
-                positionList.Add(this.statePool.getState(tempPos));
+                this.statePool.AddToStatePool(tempPos);
+                positionList.Add(this.statePool.GetState(tempPos));
             }
             // If the block to the left is free add to list.
             if (s.state.Row - 1 >= 0 &&
                 this.maze[s.state.Row - 1, s.state.Col] == CellType.Free)
             {
                 Position tempPos = new Position(s.state.Row - 1, s.state.Col);
-                this.statePool.addToStatePool(tempPos);
-                positionList.Add(this.statePool.getState(tempPos));
+                this.statePool.AddToStatePool(tempPos);
+                positionList.Add(this.statePool.GetState(tempPos));
             }
             // If the block to the right is free add to list.
             if (s.state.Col + 1 < this.maze.Cols &&
                 this.maze[s.state.Row, s.state.Col + 1] == CellType.Free)
             {
                 Position tempPos = new Position(s.state.Row, s.state.Col + 1);
-                this.statePool.addToStatePool(tempPos);
-                positionList.Add(this.statePool.getState(tempPos));
+                this.statePool.AddToStatePool(tempPos);
+                positionList.Add(this.statePool.GetState(tempPos));
             }
             // If the block below is free add to list.
             if (s.state.Row + 1 < this.maze.Rows &&
                 this.maze[s.state.Row + 1, s.state.Col] == CellType.Free)
             {
                 Position tempPos = new Position(s.state.Row + 1, s.state.Col);
-                this.statePool.addToStatePool(tempPos);
-                positionList.Add(this.statePool.getState(tempPos));
+                this.statePool.AddToStatePool(tempPos);
+                positionList.Add(this.statePool.GetState(tempPos));
             }
 
             return positionList;
