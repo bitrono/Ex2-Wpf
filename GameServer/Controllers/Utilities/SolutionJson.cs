@@ -12,8 +12,19 @@ namespace GameServer.Controllers.Utilities
     /// </summary>
     public class SolutionJson
     {
+        /// <summary>
+        /// The name of the maze.
+        /// </summary>
         public string name { get; set; }
+
+        /// <summary>
+        /// The solution of the maze.
+        /// </summary>
         public string solution { get; set; }
+
+        /// <summary>
+        /// The evaluated nodes.
+        /// </summary>
         public string evalNodes { get; set; }
 
         /// <summary>

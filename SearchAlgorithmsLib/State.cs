@@ -13,9 +13,20 @@ namespace SearchAlgorithmsLib
     /// <typeparam name="T"></typeparam>
     public class State<T> : IComparable
     {
-        public T state { get; set; } // the state represented by a string
-        public double cost { get; set; } // cost to reach this state (set by a setter)
-        public State<T> cameFrom { get; set; } // the state we came from to this state (setter)
+        /// <summary>
+        /// The state represented by a string.
+        /// </summary>
+        public T state { get; set; }
+
+        /// <summary>
+        /// The cost to reach this state (set by a setter).
+        /// </summary>
+        public double cost { get; set; }
+
+        /// <summary>
+        /// The state we came from to this state (setter).
+        /// </summary>
+        public State<T> cameFrom { get; set; }
 
         /// <summary>
         /// Ctor.

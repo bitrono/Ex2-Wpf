@@ -13,7 +13,14 @@ namespace SearchAlgorithmsLib
     /// <typeparam name="T"></typeparam>
     public class Solution<T>
     {
-        public List<State<T>> nodeList { get; set; } // List of all the nodes in the shortest path.
+        /// <summary>
+        /// List of all the nodes in the shortest path.
+        /// </summary>
+        public List<State<T>> nodeList { get; set; }
+
+        /// <summary>
+        /// The number of nodes that were evaluated.
+        /// </summary>
         public int numOfNodesEvaluated { get; set; }
 
         /// <summary>

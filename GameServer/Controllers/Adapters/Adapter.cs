@@ -14,8 +14,15 @@ namespace GameServer.Controllers.Adapters
     /// </summary>
     public class Adapter : ISearchable<Position>
     {
+        /// <summary>
+        /// The maze instance.
+        /// </summary>
         public Maze maze { get; set; }
-        private StatePool<Position> statePool;
+
+        /// <summary>
+        /// The state pool that holds all the instansiated states.
+        /// </summary>
+        private readonly StatePool<Position> statePool;
 
         /// <summary>
         /// Ctor.

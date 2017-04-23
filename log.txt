@@ -1,0 +1,83 @@
+commit aed4442f58839a0a59ad5f61d098817a1899260a
+Author: redperov <redperov@gmail.com>
+Date:   Sun Apr 23 19:00:06 2017 +0300
+
+    The server id done.
+
+commit 92187d7a4182d75cf04167541c3bc81bb8f54454
+Author: redperov <redperov@gmail.com>
+Date:   Sun Apr 23 01:35:55 2017 +0300
+
+    Prepared version.
+
+commit e1e55df65ea3a6d0b5da41cffc393a33e5952afa
+Author: redperov <redperov@gmail.com>
+Date:   Sat Apr 22 10:35:12 2017 +0300
+
+    Added searchAlgorithmLib
+
+commit f8e1651cc8a06bb7cbd2d1536146878bbd29eb10
+Author: redperov <redperov@gmail.com>
+Date:   Fri Apr 21 02:41:39 2017 +0300
+
+    Added first mutexes.
+
+commit e409f4204d155915bc299142a4beb09084108a35
+Author: redperov <redperov@gmail.com>
+Date:   Fri Apr 21 02:10:29 2017 +0300
+
+    Working server
+
+commit 1fae1df61f702ef5fbb5dc35a1a217daa2e8b482
+Author: redperov <redperov@gmail.com>
+Date:   Mon Apr 17 23:30:27 2017 +0300
+
+    Finished commenting.
+
+commit 29a7c90da846fcd97296e302b0c854eb22b1546d
+Author: redperov <redperov@gmail.com>
+Date:   Sun Apr 16 23:28:46 2017 +0300
+
+    Working server, missing close
+
+commit c08869b9efd8759b7fcda0627d32ec9fddb40f60
+Author: redperov <redperov@gmail.com>
+Date:   Sun Apr 16 08:35:51 2017 +0300
+
+    Added SearchAlgorithmsLib
+
+commit 61073f8b345442ff6ba9ca6981a40db69de7aafa
+Author: redperov <redperov@gmail.com>
+Date:   Sat Apr 15 16:50:40 2017 +0300
+
+    before adding connectedClient
+
+commit f3f5a65ae18fb3d7955bbae79e9b5884ac43e716
+Author: redperov <redperov@gmail.com>
+Date:   Mon Apr 10 23:57:26 2017 +0300
+
+    Added the view
+
+commit 7aa5df67c3f7648bf1530fb75b24b17ffd736188
+Author: redperov <redperov@gmail.com>
+Date:   Mon Apr 10 20:55:23 2017 +0300
+
+    Added command classes
+
+commit ba7bfbbd8c2a99b1461f0842caff7ea0a440b66c
+Author: redperov <redperov@gmail.com>
+Date:   Mon Apr 10 18:05:04 2017 +0300
+
+    Removed commented code
+
+commit 77781a5f1d9e2b1a6631e2ca369011cfc9d9b017
+Author: redperov <redperov@gmail.com>
+Date:   Mon Apr 10 17:53:06 2017 +0300
+
+    Add project files.
+
+commit 0e72acbd5f8859e9d8bd8be1f09100c08200d150
+Author: redperov <redperov@gmail.com>
+Date:   Mon Apr 10 17:53:05 2017 +0300
+
+    Add .gitignore and .gitattributes.

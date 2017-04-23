@@ -13,6 +13,9 @@ namespace SearchAlgorithmsLib
     /// <typeparam name="T"></typeparam>
     public class StatePool<T>
     {
+        /// <summary>
+        /// The dictionary that holds all the states.
+        /// </summary>
         private Dictionary<int, State<T>> statePool;
 
         /// <summary>

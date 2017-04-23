@@ -13,14 +13,23 @@ namespace SearchAlgorithmsLib
     /// <typeparam name="T"></typeparam>
     public interface ISearchable<T>
     {
-
-        // Returns initial state of searchable object.
+        /// <summary>
+        /// Returns the inital state.
+        /// </summary>
+        /// <returns>position of initial state.</returns>
         State<T> GetInitialState();
 
-        // Returns goal state of searchable object.
+        /// <summary>
+        /// Returns the goal state.
+        /// </summary>
+        /// <returns>position of goal state.</returns>
         State<T> GetGoalState();
 
-        // Returns all possible states from certain state.
+        /// <summary>
+        /// Returns all the possible states.
+        /// </summary>
+        /// <param name="s">Position current state.</param>
+        /// <returns>States relative to s.</returns>
         List<State<T>> GetAllPossibleStates(State<T> s);
 
     }

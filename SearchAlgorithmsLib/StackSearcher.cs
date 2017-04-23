@@ -14,7 +14,14 @@ namespace SearchAlgorithmsLib
     public abstract class StackSearcher<T> : ISearcher<T>
     {
 
+        /// <summary>
+        /// The stack of the searcher.
+        /// </summary>
         public Stack<State<T>> stack { get; set; }
+
+        /// <summary>
+        /// The number of nodes that were evaluated.
+        /// </summary>
         public int numOfNodesEvaluated { get; set; }
 
         /// <summary>

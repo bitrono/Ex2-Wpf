@@ -13,11 +13,17 @@ namespace SearchAlgorithmsLib
     /// <typeparam name="T"></typeparam>
     public interface ISearcher<T>
     {
-
-        // The search method. 
+        /// <summary>
+        /// Searches for the shortest path.
+        /// </summary>
+        /// <param name="searchable">The searchable object.</param>
+        /// <returns>The Solution of the algorithm.</returns>
         Solution<T> Search(ISearchable<T> searchable);
 
-        // Get how many nodes were evaluated by algorithm.
+        /// <summary>
+        /// Gets how many nodes have been evaluated.
+        /// </summary>
+        /// <returns>The number of nodes evaluated.</returns>
         int GetNumberOfNodesEvaluate();
     }
 }

@@ -15,8 +15,15 @@ namespace SearchAlgorithmsLib
     public abstract class QueueSearcher<T> : ISearcher<T>
     {
 
-        public PriorityQueue<State<T>> priorityQueue { get; set; } // Priority queue.
-        public int numOfNodesEvaluted { get; set; } // Number of nodes that were evaluated.
+        /// <summary>
+        /// Priority queue.
+        /// </summary>
+        public PriorityQueue<State<T>> priorityQueue { get; set; }
+
+        /// <summary>
+        /// Number of nodes that were evaluated.
+        /// </summary>
+        public int numOfNodesEvaluted { get; set; }
 
         /// <summary>
         /// Ctor.
