@@ -7,7 +7,7 @@ using GameServer.Controllers.Servers;
 using GameServer.Views.Handlers;
 using MazeLib;
 
-namespace GameServer.Models.Players
+namespace GameServer.Models.Cache
 {
     /// <summary>
     /// Contains two players that play togather.

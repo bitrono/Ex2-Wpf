@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
-using GameServer.Models.Players;
 using GameServer.Models;
+using GameServer.Models.Cache;
 using MazeLib;
 
 namespace GameServer.Controllers.ConcreteCommands

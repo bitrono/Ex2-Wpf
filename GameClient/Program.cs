@@ -62,9 +62,11 @@ namespace GameClient
                 //Communicate with server.
                 try
                 {
+                    string[] splitCommand = command.Split(' ');
+
                     //Check if the connection needs to remain open.
-                    if (command.Split(' ')[0] == "start" ||
-                        command.Split(' ')[0] == "join")
+                    if (splitCommand[0] == "start" ||
+                        splitCommand[0] == "join")
                     {
                         isMultiplayer = true;
                         serverListener.IsMultiplayer = true;
@@ -74,8 +76,10 @@ namespace GameClient
                     writer.Write(command + '\n');
                     writer.Flush();
 
+
                     //Check if connection can be closed.
-                    if (!isMultiplayer || command == "close")
+                    if (!isMultiplayer ||
+                        (splitCommand[0] == "close" && splitCommand.Length == 2))
                     {
                         isMultiplayer = false;
                         serverListener.IsMultiplayer = false;

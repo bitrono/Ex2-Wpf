@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GameServer.Controllers.Adapters;
 using GameServer.Controllers.Invokers;
 using GameServer.Controllers.Utilities;
+using GameServer.Models.Cache;
 using MazeGeneratorLib;
 using MazeLib;
 using SearchAlgorithmsLib;

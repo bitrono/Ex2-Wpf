@@ -5,7 +5,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
-using GameServer.Models.Players;
 using GameServer.Controllers.ConcreteCommands;
 using GameServer.Controllers.Servers;
 using GameServer.Controllers.Utilities;

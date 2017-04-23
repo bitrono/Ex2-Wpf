@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using GameServer.Controllers.Servers;
 using GameServer.Controllers.Utilities;
 using GameServer.Models;
-using GameServer.Models.Players;
 using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.Invokers

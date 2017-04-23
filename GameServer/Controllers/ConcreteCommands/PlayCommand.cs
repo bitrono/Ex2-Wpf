@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
-using GameServer.Models.Players;
 using GameServer.Models;
+using GameServer.Models.Cache;
 using GameServer.Views.Handlers;
 
 namespace GameServer.Controllers.ConcreteCommands
@@ -53,7 +53,7 @@ namespace GameServer.Controllers.ConcreteCommands
             //Check if the move is legal.
             if (!ContainsMove(move))
             {
-                return "Error: illegal move\n";
+                return "Illegal move\n";
             }
 
             //Set players.

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
 using GameServer.Models;
-using GameServer.Models.Players;
+using GameServer.Models.Cache;
 using GameServer.Views.Handlers;
 using MazeLib;
 using Newtonsoft.Json.Linq;
@@ -38,7 +38,7 @@ namespace GameServer.Controllers.ConcreteCommands
             //Check the number of parameters received is correct.
             if (args.Length != 1)
             {
-                return "Error: wrong parameters.\n";
+                return "Wrong parameters.\n";
             }
 
             //Lock close.

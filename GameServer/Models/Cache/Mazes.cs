@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MazeLib;
 using SearchAlgorithmsLib;
 
-namespace GameServer.Models
+namespace GameServer.Models.Cache
 {
     /// <summary>
     /// A storage for mazes.

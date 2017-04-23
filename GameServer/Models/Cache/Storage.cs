@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameServer.Models.Players;
+using GameServer.Models.Cache;
 
-namespace GameServer.Models
+namespace GameServer.Models.Cache
 {
     /// <summary>
     /// Stores containers of information.

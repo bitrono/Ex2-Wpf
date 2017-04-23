@@ -53,7 +53,7 @@ namespace GameClient
         /// Command string from user.
         /// </summary>
         public string Command { get; private set; }
-
+                     
         /// <summary>
         /// Constructor.
         /// </summary>

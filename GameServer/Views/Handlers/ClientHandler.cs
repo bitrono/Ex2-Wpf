@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using GameServer.Models.Players;
 using GameServer.Views.Handlers;
 using GameServer.Controllers.Invokers;
 using GameServer.Controllers.Servers;
@@ -55,8 +54,7 @@ namespace GameServer.Views.Handlers
                     {
                         try
                         {
-                            //TODO remove the Console.WriteLines if they are not needed
-                            Console.WriteLine(
+                           Console.WriteLine(
                                 "Waiting for command");
                             commandLine = reader.ReadLine();
 

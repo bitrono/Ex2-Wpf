@@ -8,7 +8,7 @@ using GameServer.Controllers.AbstractCommands;
 using GameServer.Controllers.Servers;
 using GameServer.Controllers.Utilities;
 using GameServer.Models;
-using GameServer.Models.Players;
+using GameServer.Models.Cache;
 using GameServer.Views.Handlers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

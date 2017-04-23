@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Models.Players
+namespace GameServer.Models.Cache
 {
     /// <summary>
     /// Contains and manages the game rooms.
@@ -17,8 +17,7 @@ namespace GameServer.Models.Players
         /// </summary>
         public Lobby()
         {
-            //TODO delete players if not needed. or rename ConnectedClient to Players
-            this.GameRooms = new Dictionary<string, GameRoom>();
+           this.GameRooms = new Dictionary<string, GameRoom>();
         }
 
         /// <summary>
@@ -56,8 +55,6 @@ namespace GameServer.Models.Players
         /// <returns>Game room</returns>
         public GameRoom SearchGameRoom(string name)
         {
-            GameRoom gameRoom;
-
             //Check if game room exists in storage.
             if (!GameRooms.ContainsKey(name))
             {
@@ -65,7 +62,7 @@ namespace GameServer.Models.Players
             }
 
             //Sets the return value to requested game room.
-            gameRoom = GameRooms[name];
+            var gameRoom = GameRooms[name];
 
             return gameRoom;
         }
