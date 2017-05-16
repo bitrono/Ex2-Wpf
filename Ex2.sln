@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameClient", "GameClient\Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchAlgorithmsLib", "SearchAlgorithmsLib\SearchAlgorithmsLib.csproj", "{E8871F65-394B-4906-9BFF-C6FBBA8940A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeMenu", "..\WpfApplication1\WpfApplication1\MazeMenu.csproj", "{EA24DC04-0E1F-40A9-8D20-46FB9AF6EFD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E8871F65-394B-4906-9BFF-C6FBBA8940A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8871F65-394B-4906-9BFF-C6FBBA8940A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8871F65-394B-4906-9BFF-C6FBBA8940A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA24DC04-0E1F-40A9-8D20-46FB9AF6EFD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA24DC04-0E1F-40A9-8D20-46FB9AF6EFD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA24DC04-0E1F-40A9-8D20-46FB9AF6EFD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA24DC04-0E1F-40A9-8D20-46FB9AF6EFD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

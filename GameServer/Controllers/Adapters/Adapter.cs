@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MazeLib;
 using SearchAlgorithmsLib;
 using Newtonsoft.Json;
+using GameServer;
 
 namespace GameServer.Controllers.Adapters
 {
